@@ -1,4 +1,4 @@
-const CACHE = 'xcl-workbench-mobile-v2.2.2';
+const CACHE = 'xcl-workbench-mobile-v3.0.0';
 const BASE = '/moyuXCL/';
 const APP_SHELL = [
   BASE,
@@ -10,7 +10,15 @@ const APP_SHELL = [
   BASE + 'icon-maskable-192.png',
   BASE + 'icon-maskable-512.png',
   BASE + 'apple-touch-icon.png',
-  BASE + 'favicon-64.png'
+  BASE + 'favicon-64.png',
+  BASE + 'assets/sunny-campus-bg.svg',
+  BASE + 'assets/research.svg',
+  BASE + 'assets/gaming.svg',
+  BASE + 'assets/life.svg',
+  BASE + 'assets/sport.svg',
+  BASE + 'assets/weather.svg',
+  BASE + 'assets/clock.svg',
+  BASE + 'assets/fish.svg'
 ];
 
 self.addEventListener('install', event => {

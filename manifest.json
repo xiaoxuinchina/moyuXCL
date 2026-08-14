@@ -2,7 +2,7 @@
   "id": "/moyuXCL/",
   "name": "爱摸鱼的XCL",
   "short_name": "摸鱼XCL",
-  "description": "爱摸鱼的XCL Mobile Edition v2.1.1：修复下拉选择框文字与背景对比度问题",
+  "description": "爱摸鱼的XCL · 晴天云朵与清晨校园风格个人工作台",
   "lang": "zh-CN",
   "start_url": "/moyuXCL/?source=pwa",
   "scope": "/moyuXCL/",
@@ -12,8 +12,8 @@
     "standalone"
   ],
   "orientation": "portrait-primary",
-  "background_color": "#07111f",
-  "theme_color": "#08111f",
+  "background_color": "#eef9ff",
+  "theme_color": "#79c8ff",
   "categories": [
     "productivity",
     "lifestyle"

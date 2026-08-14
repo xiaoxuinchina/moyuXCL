@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-<meta name="theme-color" content="#08111f" />
+<meta name="theme-color" content="#79c8ff" />
 <title>爱摸鱼的XCL</title>
 <link rel="manifest" href="/moyuXCL/manifest.json">
 <style>
@@ -353,6 +353,73 @@ textarea{min-height:84px;resize:vertical}
   .record-actions{gap:6px}
   .edit-action,.delete-action{font-size:10px;padding:5px 8px}
 }
+
+/* ===== XCL v3.0 · 晴天云朵 × 清晨校园 ===== */
+:root{
+ --bg:#eaf8ff; --bg2:#fffaf0; --card:rgba(255,255,255,.78); --card2:rgba(247,252,255,.82);
+ --line:rgba(75,139,190,.18); --text:#17345f; --muted:#617a99; --accent:#3d96f4; --accent2:#86b8ff;
+ --good:#46bd96; --warn:#f6bd55; --shadow:0 18px 48px rgba(53,116,160,.16);
+}
+html{background:#dff3ff}
+body{color:var(--text);background:linear-gradient(180deg,#72c8ff 0,#dff5ff 35%,#fffaf0 100%)}
+body:before{z-index:-2;opacity:1;background:url('./assets/sunny-campus-bg.svg') center top/cover no-repeat fixed}
+body:after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.32) 46%,rgba(255,250,239,.58));}
+.app{position:relative}
+.topbar{padding:4px 4px 0}.brand{color:#17345f;font-size:18px;text-shadow:0 1px 0 rgba(255,255,255,.75)}
+.logo{background:rgba(255,255,255,.82);border-color:rgba(255,255,255,.84);box-shadow:0 10px 28px rgba(44,111,158,.14);overflow:hidden}.logo img{width:100%;height:100%;object-fit:cover;border-radius:inherit}
+.pill,.hero-chip{color:#527092;background:rgba(255,255,255,.72);border-color:rgba(77,146,199,.16);box-shadow:0 7px 20px rgba(77,139,181,.08)}
+.hero{background:linear-gradient(135deg,rgba(255,255,255,.85),rgba(244,251,255,.67));border-color:rgba(255,255,255,.9);box-shadow:0 24px 60px rgba(46,117,165,.18);backdrop-filter:blur(22px) saturate(1.12)}
+.hero:before{width:260px;height:260px;right:-50px;bottom:-70px;background:radial-gradient(circle,rgba(88,187,255,.20),transparent 68%)}
+.hero:after{width:260px;height:260px;left:-90px;top:-110px;background:radial-gradient(circle,rgba(255,230,113,.24),transparent 68%)}
+.hero-ribbon{background:linear-gradient(135deg,#e9f6ff,#dcecff);color:#2e78d7;border:1px solid rgba(74,145,207,.18);box-shadow:none;transform:none}
+.sparkles span{color:#f1bd44}.anime-bubbles{opacity:.28}
+.hero-copy h1{color:#102e5c}.hero-copy p{color:#355478;font-weight:560}
+.note-avatar{background:#fff8da;border-color:#f3d77b;box-shadow:0 7px 18px rgba(236,189,65,.14)}
+.note-bubble{color:#466180;background:rgba(255,255,255,.74);border-color:rgba(112,168,205,.17);box-shadow:0 10px 24px rgba(68,125,165,.09)}
+.hero-mini{color:#6a82a0;background:rgba(255,255,255,.65);border-color:rgba(93,159,202,.14)}.hero-mini strong{color:#17345f}
+.hero-avatar-card{background:linear-gradient(180deg,rgba(255,255,255,.9),rgba(244,250,255,.72));border-color:rgba(255,255,255,.95);box-shadow:0 20px 44px rgba(47,110,153,.17)}
+.hero-avatar-card:after{background:linear-gradient(135deg,rgba(91,190,255,.48),rgba(255,217,100,.34));opacity:.45}
+.hero-avatar-label b{color:#17345f;font-size:14px}.fish{filter:drop-shadow(0 10px 18px rgba(37,120,178,.16));opacity:.9}
+.stat,.card{background:rgba(255,255,255,.76);border-color:rgba(255,255,255,.9);box-shadow:var(--shadow);backdrop-filter:blur(18px) saturate(1.08)}
+.stat{position:relative;overflow:hidden;padding-right:64px}.stat .k{color:#6e86a0}.stat .v{color:#17345f}.stat .sub{color:#6d849d}
+.stat:after{content:"";position:absolute;right:8px;bottom:6px;width:56px;height:52px;background:center/contain no-repeat;opacity:.96;animation:statBob 4s ease-in-out infinite}
+.stat:nth-child(1):after{background-image:url('./assets/weather.svg')}.stat:nth-child(2):after{background-image:url('./assets/clock.svg');animation-delay:.5s}.stat:nth-child(3):after{background-image:url('./assets/fish.svg');animation-delay:1s}
+@keyframes statBob{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-5px) rotate(2deg)}}
+.section-title h2,.page-head h1{color:#17345f}.section-title .pill{background:rgba(255,255,255,.68)}
+.module{position:relative;overflow:hidden;background:rgba(255,255,255,.78);border-color:rgba(255,255,255,.92);box-shadow:0 14px 34px rgba(57,119,159,.12)}
+.module:hover{background:rgba(255,255,255,.9);transform:translateY(-3px)}
+.module:after{content:"";position:absolute;width:90px;height:90px;border-radius:50%;right:-34px;bottom:-42px;opacity:.14}
+.grid4 .module:nth-child(1):after{background:#4aa3ff}.grid4 .module:nth-child(2):after{background:#52c8a3}.grid4 .module:nth-child(3):after{background:#ffb74d}.grid4 .module:nth-child(4):after{background:#9d7cf7}
+.module h3{color:#17345f}.module p{color:#68809a}
+.sticker{height:66px;margin:-6px 0 -1px;display:flex;align-items:center;justify-content:flex-start;filter:drop-shadow(0 8px 10px rgba(50,96,130,.12));transform-origin:center bottom}
+.sticker img{height:72px;width:88px;object-fit:contain;display:block}
+.sticker-research{animation:stickerFloat 3.4s ease-in-out infinite}.sticker-gaming{animation:stickerWiggle 2.8s ease-in-out infinite}.sticker-life{animation:stickerFloat 3.1s ease-in-out .35s infinite}.sticker-sport{animation:stickerWiggle 3.2s ease-in-out .25s infinite}
+@keyframes stickerFloat{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-6px) rotate(1.5deg)}}
+@keyframes stickerWiggle{0%,100%{transform:translateY(0) rotate(-2deg)}25%{transform:translateY(-3px) rotate(2.5deg)}50%{transform:translateY(-5px) rotate(-1deg)}75%{transform:translateY(-2px) rotate(2deg)}}
+.progress{background:rgba(61,105,146,.11)}.progress i{background:linear-gradient(90deg,#48a8f8,#6797f6)}
+.grid4 .module:nth-child(2) .progress i{background:linear-gradient(90deg,#48c8aa,#71d8bc)}.grid4 .module:nth-child(3) .progress i{background:linear-gradient(90deg,#ffc15a,#ff9f57)}.grid4 .module:nth-child(4) .progress i{background:linear-gradient(90deg,#9a78f3,#b899ff)}
+.trow{background:rgba(250,253,255,.75);border-color:rgba(85,145,188,.12)}.tmain b{color:#24466e}.tmain small{color:#7389a0}.metric{border-color:rgba(74,139,183,.13)}
+.btn{color:#2f6fb9;background:rgba(255,255,255,.75);border-color:rgba(80,149,199,.18);box-shadow:0 5px 16px rgba(69,130,171,.07)}.btn:hover{background:#fff}
+.tag{background:#eff9ff;border-color:#c9eaff;color:#4079a6}.active-filter{background:#e2f3ff;border-color:#8dccf6!important}
+.record p,.page-head p,.empty{color:#6c829a}.edit-action{color:#2f84c3;background:#edf9ff;border-color:#cfeafb}.delete-action{color:#cd6071;background:#fff3f5;border-color:#f5dce1}
+.bottom-nav{background:rgba(255,255,255,.84);border-color:rgba(255,255,255,.92);box-shadow:0 16px 42px rgba(45,105,146,.17);backdrop-filter:blur(24px) saturate(1.1)}
+.navbtn{color:#647d98}.navbtn.active{color:#287fe3;background:#e9f5ff}.navbtn span:first-child{font-size:19px}.nav-sticker{height:24px!important;width:32px;display:flex;align-items:center;justify-content:center}.nav-sticker img{width:32px;height:28px;object-fit:contain}
+.modal{background:rgba(42,86,118,.30);backdrop-filter:blur(5px)}.sheet{background:rgba(248,253,255,.97);border-color:rgba(255,255,255,.96);box-shadow:0 -12px 42px rgba(49,105,143,.18);color:#17345f}.sheet #modalHint{color:#71869d!important}
+input,textarea,select{background:#f5fbff;color:#23466d;border-color:#d3e9f6;background-image:linear-gradient(45deg,transparent 50%,#6992b3 50%),linear-gradient(135deg,#6992b3 50%,transparent 50%)}
+input::placeholder,textarea::placeholder{color:#91a5b8}select option{background:#fff;color:#23466d}select option:checked{background:#e9f5ff;color:#17345f}input[type="date"]{color-scheme:light}
+.archive-date{color:#617b96}
+@media(max-width:600px){
+ body:before{background-position:center top;background-size:auto 100%;}
+ .app{padding:8px 12px calc(94px + env(safe-area-inset-bottom))}.topbar{min-height:52px;margin-bottom:8px}.brand{font-size:18px}.logo{width:40px;height:40px}
+ .hero{padding:15px;border-radius:26px}.hero-ribbon{font-size:10px;background:rgba(235,247,255,.92)}
+ .hero-main{grid-template-columns:minmax(0,1fr) 92px;gap:10px}.hero-avatar-card{width:92px;padding:6px}.hero-copy h1{font-size:31px}.hero-copy>p{font-size:11px;color:#345478}.hero-chip{font-size:9px}
+ .hero-note{margin-top:9px}.note-bubble{font-size:9px;padding:8px 10px}.hero-mini-panels{display:none}.fish{display:none}
+ .stats{gap:8px;margin-top:12px}.stat{min-height:92px;padding:10px 48px 10px 10px}.stat .v{font-size:18px}.stat:after{width:46px;height:44px;right:2px;bottom:7px}
+ .grid4{gap:9px}.module{min-height:145px;padding:12px 12px 11px}.sticker{height:72px;margin:-6px 0 -8px}.sticker img{height:76px;width:94px}.module h3{font-size:15px;margin:5px 0 3px}.module p{font-size:9px;min-height:26px}.progress{margin-top:8px}
+ .two{gap:9px}.bottom-nav{bottom:7px;width:calc(100% - 20px)}.navbtn{font-size:10px}.nav-sticker img{width:30px;height:26px}
+ .page-head{padding-top:5px}.page-head h1{font-size:23px}.records .card{background:rgba(255,255,255,.82)}
+}
+
 </style>
 <link rel="apple-touch-icon" href="/moyuXCL/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="64x64" href="/moyuXCL/favicon-64.png">
@@ -364,8 +431,8 @@ textarea{min-height:84px;resize:vertical}
 <body>
 <div class="app">
   <div class="topbar">
-    <div class="brand"><div class="logo">🐟</div><div>爱摸鱼的XCL</div></div>
-    <div class="pill">你的个人数字生活工作台 · v2.2.2 稳定修正版</div>
+    <div class="brand"><div class="logo"><img src="./icon-192.png" alt=""></div><div>爱摸鱼的XCL</div></div>
+    <div class="pill">晴天云朵 · 清晨校园版 · v3.0</div>
   </div>
 
   <section id="home" class="page active">
@@ -382,7 +449,7 @@ textarea{min-height:84px;resize:vertical}
           <h1 id="greeting">Good morning, XCL.</h1>
           <p>认真科研，快乐生活，合理摸鱼。</p>
           <div class="hero-note">
-            <div class="note-avatar">🌙</div>
+            <div class="note-avatar">☀️</div>
             <div class="note-bubble" id="otakuNote">欢迎回来，XCL。今天也要把科研、生活、游戏和运动都记录下来喔。</div>
           </div>
           <div class="hero-mini-panels">
@@ -407,10 +474,10 @@ textarea{min-height:84px;resize:vertical}
 
     <div class="section-title"><h2>今日状态</h2><span class="pill" id="todayCount">0 条记录</span></div>
     <div class="grid4">
-      <div class="card module" onclick="go('research')"><div class="icon">🔬</div><h3>科研工作区</h3><p id="homeResearch">记录 SCI、专利、竞赛和研究进展</p><div class="progress"><i id="progressResearch" style="width:0%"></i></div></div>
-      <div class="card module" onclick="go('gaming')"><div class="icon">🎮</div><h3>摸鱼区</h3><p id="homeGaming">王者 / LOL / 云顶之弈上分记录</p><div class="progress"><i id="progressGaming" style="width:0%"></i></div></div>
-      <div class="card module" onclick="go('life')"><div class="icon">🍜</div><h3>生活区</h3><p id="homeLife">干饭、电影、3D 打印和日常</p><div class="progress"><i id="progressLife" style="width:0%"></i></div></div>
-      <div class="card module" onclick="go('sport')"><div class="icon">🏸</div><h3>运动区</h3><p id="homeSport">乒乓球、羽毛球、足球、排球</p><div class="progress"><i id="progressSport" style="width:0%"></i></div></div>
+      <div class="card module" onclick="go('research')"><div class="icon sticker sticker-research"><img src="./assets/research.svg" alt="卡通显微镜"></div><h3>科研工作区</h3><p id="homeResearch">记录 SCI、专利、竞赛和研究进展</p><div class="progress"><i id="progressResearch" style="width:0%"></i></div></div>
+      <div class="card module" onclick="go('gaming')"><div class="icon sticker sticker-gaming"><img src="./assets/gaming.svg" alt="卡通游戏手柄"></div><h3>摸鱼区</h3><p id="homeGaming">王者 / LOL / 云顶之弈上分记录</p><div class="progress"><i id="progressGaming" style="width:0%"></i></div></div>
+      <div class="card module" onclick="go('life')"><div class="icon sticker sticker-life"><img src="./assets/life.svg" alt="卡通干饭"></div><h3>生活区</h3><p id="homeLife">干饭、电影、3D 打印和日常</p><div class="progress"><i id="progressLife" style="width:0%"></i></div></div>
+      <div class="card module" onclick="go('sport')"><div class="icon sticker sticker-sport"><img src="./assets/sport.svg" alt="卡通羽毛球足球"></div><h3>运动区</h3><p id="homeSport">乒乓球、羽毛球、足球、排球</p><div class="progress"><i id="progressSport" style="width:0%"></i></div></div>
     </div>
 
     <div class="section-title"><h2>今日时间线</h2><div style="display:flex;gap:7px"><button class="btn" onclick="go('archive')">全部记录</button><button class="btn" onclick="openModal('home')">+ 新记录</button></div></div>
@@ -466,10 +533,10 @@ textarea{min-height:84px;resize:vertical}
 
 <nav class="bottom-nav">
   <button class="navbtn active" data-page="home" onclick="go('home')"><span>🏠</span><span>首页</span></button>
-  <button class="navbtn" data-page="research" onclick="go('research')"><span>🔬</span><span>科研</span></button>
-  <button class="navbtn" data-page="gaming" onclick="go('gaming')"><span>🎮</span><span>摸鱼</span></button>
-  <button class="navbtn" data-page="life" onclick="go('life')"><span>🍜</span><span>生活</span></button>
-  <button class="navbtn" data-page="sport" onclick="go('sport')"><span>🏸</span><span>运动</span></button>
+  <button class="navbtn" data-page="research" onclick="go('research')"><span class="nav-sticker"><img src="./assets/research.svg" alt=""></span><span>科研</span></button>
+  <button class="navbtn" data-page="gaming" onclick="go('gaming')"><span class="nav-sticker"><img src="./assets/gaming.svg" alt=""></span><span>摸鱼</span></button>
+  <button class="navbtn" data-page="life" onclick="go('life')"><span class="nav-sticker"><img src="./assets/life.svg" alt=""></span><span>生活</span></button>
+  <button class="navbtn" data-page="sport" onclick="go('sport')"><span class="nav-sticker"><img src="./assets/sport.svg" alt=""></span><span>运动</span></button>
 </nav>
 
 <div class="modal" id="modal">
@@ -497,7 +564,7 @@ textarea{min-height:84px;resize:vertical}
 
 <script>
 const STORE='xcl-workbench-v1';
-const APP_VERSION='2.2.2';
+const APP_VERSION='3.0.0';
 let currentType='home';
 let editingRecordId=null;
 let data=JSON.parse(localStorage.getItem(STORE)||'[]');
