@@ -2,7 +2,7 @@
   "id": "/moyuXCL/",
   "name": "爱摸鱼的XCL",
   "short_name": "摸鱼XCL",
-  "description": "爱摸鱼的XCL Mobile Edition：科研、游戏、生活与运动个人工作台",
+  "description": "爱摸鱼的XCL Mobile Edition v2.1.1：修复下拉选择框文字与背景对比度问题",
   "lang": "zh-CN",
   "start_url": "/moyuXCL/?source=pwa",
   "scope": "/moyuXCL/",
