@@ -235,6 +235,97 @@ textarea{min-height:84px;resize:vertical}
   .hero-note{max-width:none}
   .hero-mini-panels{grid-template-columns:1fr}
 }
+
+/* ===== XCL Mobile Edition v2.1 ===== */
+@media (max-width: 600px){
+  html,body{width:100%;max-width:100%;overflow-x:hidden}
+  body{background:
+    radial-gradient(circle at 80% 5%,rgba(167,139,250,.12),transparent 26%),
+    linear-gradient(180deg,#07101e 0%,#081526 100%);
+  }
+  .app{width:100%;max-width:none;padding:10px 12px calc(92px + env(safe-area-inset-bottom))}
+  .topbar{margin:2px 2px 10px;min-height:44px}
+  .brand{gap:9px;font-size:15px}
+  .logo{width:34px;height:34px;border-radius:11px;font-size:17px}
+  .topbar>.pill{display:none}
+
+  .hero{border-radius:24px;padding:16px;min-height:auto;overflow:hidden}
+  .hero-ribbon{position:static;display:inline-flex;transform:none;margin:0 0 10px;padding:6px 10px;border-radius:999px;font-size:10px}
+  .hero-main{display:grid;grid-template-columns:minmax(0,1fr) 82px;gap:12px;align-items:start}
+  .hero-copy{padding:0;min-width:0}
+  .hero-subtitle{gap:6px;margin-bottom:8px}
+  .hero-chip{max-width:100%;padding:5px 8px;font-size:9px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .hero-copy h1{font-size:30px;line-height:1.02;letter-spacing:-1.2px;margin:6px 0 7px}
+  .hero-copy>p{font-size:11px;line-height:1.55;max-width:250px}
+  .hero-avatar-wrap{width:auto;justify-content:flex-end}
+  .hero-avatar-card{width:82px;padding:6px;border-radius:18px;animation:floatCard 5s ease-in-out infinite}
+  .hero-avatar{border-radius:14px}
+  .hero-avatar-label{margin-top:5px;gap:4px;font-size:8px}
+  .hero-avatar-label b{font-size:10px}
+  .avatar-badge{padding:3px 5px;font-size:7px}
+  .hero-note{margin-top:10px;gap:7px}
+  .note-avatar{width:26px;height:26px;font-size:12px;flex:0 0 auto}
+  .note-bubble{padding:8px 10px;border-radius:14px 14px 14px 5px;font-size:9px;line-height:1.5}
+  .hero-mini-panels{grid-template-columns:1fr 1fr;gap:7px;margin-top:10px}
+  .hero-mini{padding:8px 9px;border-radius:14px;font-size:8px}
+  .hero-mini strong{font-size:10px;margin-top:3px}
+  .fish{font-size:44px;right:-6px;bottom:72px}
+  .stats{grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin-top:12px}
+  .stat{padding:10px 9px;border-radius:16px;min-width:0}
+  .stat .k{font-size:8px;margin-bottom:5px}
+  .stat .v{font-size:16px;white-space:nowrap}
+  .stat .sub{font-size:8px;line-height:1.35;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+  .section-title{margin:18px 2px 9px}
+  .section-title h2{font-size:16px}
+  .section-title .pill{padding:6px 9px;font-size:9px}
+
+  .grid4{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+  .module{min-height:118px;padding:14px;border-radius:18px}
+  .module .icon{font-size:23px}
+  .module h3{font-size:14px;margin:10px 0 4px}
+  .module p{font-size:9px;line-height:1.45;min-height:26px}
+  .progress{margin-top:10px;height:5px}
+
+  .two{grid-template-columns:1fr;gap:9px}
+  .card{border-radius:18px}
+  .timeline{gap:7px}
+  .trow{padding:9px;border-radius:13px}
+  .tmain b{font-size:12px}
+  .tmain small{font-size:9px}
+  .metric{padding:10px 0;font-size:11px}
+  .metric strong{font-size:16px}
+
+  .page-head{align-items:center;margin:4px 2px 12px}
+  .page-head h1{font-size:22px}
+  .page-head p{font-size:10px;margin-top:4px}
+  .page-head .btn{flex:0 0 auto;padding:8px 10px;border-radius:12px;font-size:10px}
+  .achievements{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:10px}
+  .ach{padding:12px 7px;border-radius:16px}
+  .ach strong{font-size:22px}
+  .ach span{font-size:8px}
+  .records{grid-template-columns:1fr;gap:9px}
+  .record{padding:13px}
+  .record h3{font-size:13px}
+  .record p{font-size:10px}
+  .tag{font-size:8px;padding:5px 7px}
+
+  .modal{align-items:end;padding:0}
+  .sheet{width:100%;max-width:none;max-height:88vh;overflow:auto;border-radius:24px 24px 0 0;padding:18px 16px calc(18px + env(safe-area-inset-bottom));border-left:0;border-right:0;border-bottom:0;animation:sheetUp .24s ease-out}
+  @keyframes sheetUp{from{transform:translateY(30px);opacity:.75}to{transform:none;opacity:1}}
+  .sheet h3{font-size:17px;margin-bottom:13px}
+  .sheet .row{grid-template-columns:1fr;gap:0}
+  input,textarea,select{min-height:46px;margin:5px 0 9px;padding:12px 13px;border-radius:13px;font-size:14px}
+  textarea{min-height:96px}
+  .actions{margin-top:4px}
+  .actions .btn{min-height:42px;padding:10px 15px;font-size:13px}
+
+  .bottom-nav{bottom:8px;width:calc(100% - 22px);padding:7px;border-radius:20px;grid-template-columns:repeat(5,1fr)}
+  .navbtn{padding:7px 2px;border-radius:13px;font-size:9px}
+  .navbtn span:first-child{font-size:17px}
+}
+@media (min-width:601px) and (max-width:900px){.app{max-width:760px}}
+
 </style>
 <link rel="apple-touch-icon" href="/moyuXCL/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="64x64" href="/moyuXCL/favicon-64.png">
@@ -343,7 +434,7 @@ textarea{min-height:84px;resize:vertical}
 
 <div class="modal" id="modal">
   <div class="sheet">
-    <h3 id="modalTitle">新增记录</h3>
+    <h3 id="modalTitle">新增记录</h3><div id="modalHint" style="color:var(--muted);font-size:11px;margin:-8px 0 8px"></div>
     <div class="row">
       <select id="category"></select>
       <input id="title" placeholder="标题，例如：羽毛球 90 min">
@@ -372,6 +463,13 @@ const configs={
  sport:['乒乓球','羽毛球','足球','排球','其他运动'],
  home:['科研','摸鱼','生活','运动']
 };
+const modalCopy={
+ research:{title:'新增科研记录',hint:'论文、专利、竞赛或当天科研推进都可以记录。',titlePH:'标题，例如：OCT论文投稿 / 完成模型实验',notePH:'记录今天的科研进展、结果或下一步计划…',valuePH:'结果，例如：已投稿 / 已授权 / IF 8.5'},
+ gaming:{title:'新增摸鱼记录',hint:'记录今天的段位、星数、胜点或战绩。',titlePH:'标题，例如：王者荣耀上分 / 云顶晋级',notePH:'记录今日战绩、阵容、英雄或有趣对局…',valuePH:'结果，例如：+3星 / +48胜点 / 4连胜'},
+ life:{title:'新增生活记录',hint:'干饭、电影、3D打印和生活碎片都放这里。',titlePH:'标题，例如：看完一部电影 / 打印新模型',notePH:'记录体验、观后感、餐厅评价或今天发生的事…',valuePH:'结果，例如：8.5分 / ¥68 / 打印成功'},
+ sport:{title:'新增运动记录',hint:'记录项目、时长、比分或今天的运动体验。',titlePH:'标题，例如：乒乓球训练90min',notePH:'记录对手、练习内容、比分或身体状态…',valuePH:'结果，例如：90min / 3:1 / 8km'},
+ home:{title:'新增今日记录',hint:'选择所属分区后，记录今天最值得留下的一件事。',titlePH:'标题，例如：完成实验 / 王者+3星 / 看电影',notePH:'今天发生了什么？',valuePH:'结果，例如：完成 / +3星 / 9.0分'}
+};
 const icons={research:'🔬',gaming:'🎮',life:'🍜',sport:'🏸',home:'📌'};
 
 function todayISO(){return new Date().toISOString().slice(0,10)}
@@ -384,17 +482,56 @@ function go(id){
  window.scrollTo({top:0,behavior:'smooth'});
 }
 
+function applyModalCopy(type){
+ const c=modalCopy[type]||modalCopy.home;
+ document.getElementById('modalTitle').textContent=c.title;
+ document.getElementById('modalHint').textContent=c.hint;
+ document.getElementById('title').placeholder=c.titlePH;
+ document.getElementById('note').placeholder=c.notePH;
+ document.getElementById('value').placeholder=c.valuePH;
+}
 function openModal(type){
  currentType=type;
  document.getElementById('modal').classList.add('show');
  const cat=document.getElementById('category');
  cat.innerHTML=configs[type].map(x=>`<option>${x}</option>`).join('');
+ applyModalCopy(type);
  document.getElementById('date').value=todayISO();
  document.getElementById('title').value='';
  document.getElementById('note').value='';
  document.getElementById('value').value='';
 }
 function closeModal(){document.getElementById('modal').classList.remove('show')}
+document.addEventListener('DOMContentLoaded',()=>{
+ const category=document.getElementById('category');
+ category.addEventListener('change',()=>{
+   const v=category.value;
+   const title=document.getElementById('title');
+   const value=document.getElementById('value');
+   const categoryExamples={
+     'SCI论文':['标题，例如：Photonics Research论文接收','结果，例如：已投稿 / Under Review / 接收'],
+     '专利':['标题，例如：OCT衰减系数估计发明专利','结果，例如：申请中 / 已授权'],
+     '竞赛':['标题，例如：参加创新创业竞赛','结果，例如：一等奖 / 入围决赛'],
+     '科研日志':['标题，例如：完成MS/depth correction实验','结果，例如：Val loss 2.31'],
+     '王者荣耀':['标题，例如：王者荣耀排位上分','结果，例如：+3星 / 王者25星'],
+     '英雄联盟':['标题，例如：单双排上分','结果，例如：+28LP / 3连胜'],
+     '云顶之弈':['标题，例如：云顶排位晋级','结果，例如：+48胜点 / 大师'],
+     '干饭':['标题，例如：今晚吃日式烧肉','结果，例如：¥88 / 4.5分'],
+     '电影':['标题，例如：看完《电影名》','结果，例如：8.5分'],
+     '3D打印':['标题，例如：打印小鼠模型','结果，例如：3h20min / 成功'],
+     '日常':['标题，例如：今天值得记录的一件事','结果，例如：完成'],
+     '乒乓球':['标题，例如：乒乓球训练90min','结果，例如：90min / 3:1'],
+     '羽毛球':['标题，例如：羽毛球双打2小时','结果，例如：120min'],
+     '足球':['标题，例如：五人制足球','结果，例如：2:1 / 80min'],
+     '排球':['标题，例如：排球训练','结果，例如：90min']
+   };
+   if(categoryExamples[v]){
+     title.placeholder=categoryExamples[v][0];
+     value.placeholder=categoryExamples[v][1];
+   }
+ });
+});
+
 
 function saveRecord(){
  const title=document.getElementById('title').value.trim();
