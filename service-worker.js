@@ -1,4 +1,4 @@
-const CACHE = 'xcl-workbench-mobile-v3.0.2';
+const CACHE = 'xcl-workbench-mobile-v3.0.3';
 const BASE = '/moyuXCL/';
 const APP_SHELL = [
   BASE,
@@ -11,7 +11,6 @@ const APP_SHELL = [
   BASE + 'icon-maskable-512.png',
   BASE + 'apple-touch-icon.png',
   BASE + 'favicon-64.png',
-  BASE + 'version.json',
   BASE + 'assets/sunny-campus-bg.svg',
   BASE + 'assets/research.svg',
   BASE + 'assets/gaming.svg',
