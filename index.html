@@ -708,6 +708,14 @@ input::placeholder,textarea::placeholder{color:#91a5b8}select option{background:
   .ticon img{width:42px;height:39px}
 }
 
+
+/* v3.0.6: archive list icon unification + empty-state fish replacement */
+.record-titleline{display:flex;align-items:center;gap:10px;min-width:0}
+.record-titleline h3{margin:0}
+.archive-item-icon{width:28px;height:28px;flex:0 0 28px;object-fit:contain;filter:drop-shadow(0 4px 8px rgba(60,120,170,.10))}
+.empty-inline-icon{display:inline-block;vertical-align:middle;width:22px;height:22px;object-fit:contain;margin-left:4px;transform:translateY(2px)}
+@media(max-width:600px){.record-titleline{gap:8px}.archive-item-icon{width:24px;height:24px;flex-basis:24px}.empty-inline-icon{width:18px;height:18px}}
+
 </style>
 <link rel="apple-touch-icon" href="/moyuXCL/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="64x64" href="/moyuXCL/favicon-64.png">
@@ -894,7 +902,7 @@ input::placeholder,textarea::placeholder{color:#91a5b8}select option{background:
 
 <script>
 const STORE='xcl-workbench-v1';
-const APP_VERSION='3.0.5';
+const APP_VERSION='3.0.6';
 let currentType='home';
 let editingRecordId=null;
 let data=JSON.parse(localStorage.getItem(STORE)||'[]');
@@ -938,7 +946,7 @@ function formatDuration(mins){mins=Number(mins)||0;if(mins<=0)return '';const h=
 function totalMinutes(items,type){return items.filter(x=>x.type===type).reduce((s,x)=>s+(Number(x.duration)||0),0);}
 let archiveFilter='all';
 function setArchiveFilter(filter,btn){archiveFilter=filter;document.querySelectorAll('.archive-filter').forEach(x=>x.classList.remove('active-filter'));if(btn)btn.classList.add('active-filter');renderArchive();}
-function renderArchive(){const root=document.getElementById('archiveRecords');if(!root)return;const items=[...data].filter(x=>archiveFilter==='all'||x.type===archiveFilter).sort((a,b)=>(b.date||'').localeCompare(a.date||'')||(b.id-a.id));if(!items.length){root.innerHTML='<div class="card empty">还没有历史活动记录。</div>';return;}let last='';root.innerHTML=items.map(x=>{const head=x.date!==last?`<div class="archive-date">${last=x.date}</div>`:'';return head+`<div class="card record"><div class="record-top"><div><h3>${icons[x.type]} ${esc(x.title)}</h3><p>${esc(x.note||'没有备注')}</p></div><div class="record-actions"><span class="edit-action" onclick="openEdit(${x.id})">修改</span><span class="delete-action" onclick="del(${x.id})">删除</span></div></div><span class="tag">${esc(x.category)}${x.value?' · '+esc(x.value):''}${x.duration?' · '+formatDuration(x.duration):''}</span></div>`;}).join('');}
+function renderArchive(){const root=document.getElementById('archiveRecords');if(!root)return;const items=[...data].filter(x=>archiveFilter==='all'||x.type===archiveFilter).sort((a,b)=>(b.date||'').localeCompare(a.date||'')||(b.id-a.id));if(!items.length){root.innerHTML='<div class="card empty">还没有历史活动记录。</div>';return;}let last='';root.innerHTML=items.map(x=>{const head=x.date!==last?`<div class="archive-date">${last=x.date}</div>`:'';const icon=assetIcons[x.type]||assetIcons.home;return head+`<div class="card record"><div class="record-top"><div><div class="record-titleline"><img class="archive-item-icon" src="${icon}" alt=""><h3>${esc(x.title)}</h3></div><p>${esc(x.note||'没有备注')}</p></div><div class="record-actions"><span class="edit-action" onclick="openEdit(${x.id})">修改</span><span class="delete-action" onclick="del(${x.id})">删除</span></div></div><span class="tag">${esc(x.category)}${x.value?' · '+esc(x.value):''}${x.duration?' · '+formatDuration(x.duration):''}</span></div>`;}).join('');}
 
 function esc(s=''){return s.replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
 
@@ -1043,7 +1051,7 @@ document.addEventListener('DOMContentLoaded',()=>{
 
 function saveRecord(){
  const title=document.getElementById('title').value.trim();
- if(!title)return alert('先写一个标题吧 🐟');
+ if(!title)return alert('先写一个标题吧');
 
  const map={科研:'research',摸鱼:'gaming',生活:'life',运动:'sport'};
  let type=currentType;
@@ -1093,7 +1101,7 @@ function renderList(type,el){
  const items=data.filter(x=>x.type===type);
  const root=document.getElementById(el);
  if(!items.length){
-   root.innerHTML='<div class="card empty">还没有记录。第一条就从今天开始吧 🐟</div>';return;
+   root.innerHTML='<div class="card empty">还没有记录。第一条就从今天开始吧 <img class="empty-inline-icon" src="./assets/weather.svg" alt=""></div>';return;
  }
  root.innerHTML=items.map(x=>`
    <div class="card record">
