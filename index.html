@@ -366,7 +366,7 @@ body:before{z-index:-2;opacity:1;background:url('./assets/sunny-campus-bg.svg') 
 body:after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.32) 46%,rgba(255,250,239,.58));}
 .app{position:relative}
 .topbar{padding:4px 4px 0}.brand{color:#17345f;font-size:18px;text-shadow:0 1px 0 rgba(255,255,255,.75)}
-.logo{background:rgba(255,255,255,.82);border-color:rgba(255,255,255,.84);box-shadow:0 10px 28px rgba(44,111,158,.14);overflow:hidden}.logo img{width:100%;height:100%;object-fit:cover;border-radius:inherit}
+.logo{display:none}
 .pill,.hero-chip{color:#527092;background:rgba(255,255,255,.72);border-color:rgba(77,146,199,.16);box-shadow:0 7px 20px rgba(77,139,181,.08)}
 .hero{background:linear-gradient(135deg,rgba(255,255,255,.85),rgba(244,251,255,.67));border-color:rgba(255,255,255,.9);box-shadow:0 24px 60px rgba(46,117,165,.18);backdrop-filter:blur(22px) saturate(1.12)}
 .hero:before{width:260px;height:260px;right:-50px;bottom:-70px;background:radial-gradient(circle,rgba(88,187,255,.20),transparent 68%)}
@@ -404,7 +404,7 @@ body:after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;back
 .record p,.page-head p,.empty{color:#6c829a}.edit-action{color:#2f84c3;background:#edf9ff;border-color:#cfeafb}.delete-action{color:#cd6071;background:#fff3f5;border-color:#f5dce1}
 .bottom-nav{background:rgba(255,255,255,.84);border-color:rgba(255,255,255,.92);box-shadow:0 16px 42px rgba(45,105,146,.17);backdrop-filter:blur(24px) saturate(1.1)}
 .navbtn{color:#647d98}.navbtn.active{color:#287fe3;background:#e9f5ff}.navbtn span:first-child{font-size:19px}.nav-sticker{height:24px!important;width:32px;display:flex;align-items:center;justify-content:center}.nav-sticker img{width:32px;height:28px;object-fit:contain}
-.modal{background:rgba(87,152,205,.22);backdrop-filter:blur(8px)}.sheet{background:rgba(252,254,255,.98);border:1px solid rgba(255,255,255,.98);box-shadow:0 16px 46px rgba(67,128,170,.22);color:#17345f;border-radius:32px 32px 0 0}.sheet #modalHint{color:#7289a2!important}.modal-head{display:flex;align-items:center;gap:12px;margin-bottom:14px}.modal-appicon{width:48px;height:48px;border-radius:14px;box-shadow:0 8px 18px rgba(87,146,199,.18);flex:0 0 auto}.modal-head h3{margin:0 0 4px;font-size:19px;line-height:1.15}.field{margin-bottom:12px}.field label{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:800;color:#204773;margin:0 0 7px}.field-icon{width:22px;height:22px;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;background:linear-gradient(180deg,#eef8ff,#d8efff);box-shadow:inset 0 1px 0 rgba(255,255,255,.8);font-size:13px}.row.compact{display:grid;grid-template-columns:1fr 1fr;gap:10px}.input-wrap,.select-wrap{position:relative}.input-unit{position:absolute;right:12px;top:50%;transform:translateY(-50%);padding:6px 10px;border-radius:999px;background:#e9f4ff;color:#2b6fce;font-size:12px;font-weight:800}.select-wrap::after{content:'›';position:absolute;right:16px;top:50%;transform:translateY(-50%) rotate(90deg);font-size:20px;color:#5f89b1;pointer-events:none}.date-wrap::after{content:'📅';position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:16px;pointer-events:none;opacity:.72}input,textarea,select{background:#ffffff;color:#23466d;border:1px solid #cfe4f3;box-shadow:inset 0 1px 1px rgba(255,255,255,.85),0 2px 6px rgba(155,196,224,.12);background-image:none}input::placeholder,textarea::placeholder{color:#93a7bb}select{appearance:none;-webkit-appearance:none;-moz-appearance:none;padding-right:40px}textarea{background-image:radial-gradient(circle at 92% 78%, rgba(167,211,255,.35), rgba(167,211,255,0) 18%)}select option{background:#fff;color:#23466d}select option:checked{background:#e9f5ff;color:#17345f}input[type="date"]{color-scheme:light}.field-note{margin-top:4px;color:#7a93ab;font-size:11px}.actions{margin-top:6px}.actions .btn{min-width:120px}.actions .btn:last-child{background:linear-gradient(180deg,#64a9ff,#2b74f0);color:#fff;border-color:transparent;box-shadow:0 10px 20px rgba(64,129,241,.22)}.actions .btn:first-child{background:#fff;color:#2a67b7}@media (max-width:760px){.modal-head{align-items:flex-start}.modal-appicon{width:42px;height:42px;border-radius:12px}.field{margin-bottom:10px}.row.compact{grid-template-columns:1fr}.sheet{border-radius:28px 28px 0 0}}
+.modal{--accent:#4e8dff;--accent-soft:#dcebff;--accent-strong:#2e73ff;--field-bg:rgba(255,255,255,.88);--field-border:#cfe2fa;background:linear-gradient(180deg,rgba(163,213,255,.22),rgba(255,255,255,.35)), url('./assets/sunny-campus-bg.svg') center/cover no-repeat;backdrop-filter:blur(6px);padding:18px 14px calc(18px + env(safe-area-inset-bottom));overflow:auto}.sheet{width:min(720px,100%);margin:auto;background:rgba(248,252,255,.86);border:1px solid rgba(255,255,255,.95);backdrop-filter:blur(18px);box-shadow:0 24px 60px rgba(69,124,172,.22);color:#17345f;border-radius:34px;padding:18px 18px 16px;position:relative}.sheet::before{content:'';position:absolute;inset:0;border-radius:inherit;pointer-events:none;box-shadow:inset 0 0 0 1px rgba(255,255,255,.45)}.sheet #modalHint{color:#7289a2!important;font-size:13px!important;line-height:1.55!important}.modal-head{display:flex;align-items:flex-start;gap:12px;margin-bottom:18px;padding:2px 4px 6px}.modal-head-text{display:block;width:100%}.modal-kicker{display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border-radius:999px;background:linear-gradient(180deg,#ffffff,#eff7ff);border:1px solid rgba(163,200,255,.7);font-size:12px;font-weight:800;color:var(--accent-strong);margin-bottom:10px;box-shadow:0 6px 18px rgba(134,177,221,.15)}.modal-head h3{margin:0 0 6px;font-size:22px;line-height:1.15;color:#163f7a}.field{margin-bottom:14px}.field label{display:flex;align-items:center;gap:9px;font-size:14px;font-weight:800;color:#204773;margin:0 0 8px}.field-icon{width:24px;height:24px;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;background:linear-gradient(180deg,#ffffff,#e7f3ff);border:1px solid rgba(188,214,244,.9);box-shadow:0 4px 12px rgba(163,198,232,.16);font-size:13px}.row.compact{display:grid;grid-template-columns:1fr 1fr;gap:12px}.input-wrap,.select-wrap{position:relative}.input-unit{position:absolute;right:10px;top:50%;transform:translateY(-50%);padding:8px 14px;border-radius:999px;background:linear-gradient(180deg,#f3f8ff,#deecff);color:var(--accent-strong);font-size:12px;font-weight:800;border:1px solid #d2e3fb}.select-wrap::after{content:'›';position:absolute;right:16px;top:50%;transform:translateY(-50%) rotate(90deg);font-size:22px;color:#5f89b1;pointer-events:none}.date-wrap::after{content:'📅';position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:17px;pointer-events:none;opacity:.72}input,textarea,select{background:var(--field-bg);color:#23466d;border:1px solid var(--field-border);box-shadow:inset 0 1px 1px rgba(255,255,255,.85),0 5px 16px rgba(155,196,224,.12);background-image:none;border-radius:18px;padding:15px 16px;font-size:16px}input:focus,textarea:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 4px rgba(94,156,255,.16), inset 0 1px 1px rgba(255,255,255,.92),0 8px 18px rgba(155,196,224,.18)}input::placeholder,textarea::placeholder{color:#93a7bb}select{appearance:none;-webkit-appearance:none;-moz-appearance:none;padding-right:40px}textarea{min-height:158px;background-image:radial-gradient(circle at 92% 78%, rgba(167,211,255,.28), rgba(167,211,255,0) 18%)}select option{background:#fff;color:#23466d}select option:checked{background:#e9f5ff;color:#17345f}input[type='date']{color-scheme:light}.field-note{margin-top:6px;color:#7a93ab;font-size:12px}.actions{margin-top:10px;display:flex;gap:12px;justify-content:space-between}.actions .btn{min-width:132px;flex:1;border-radius:20px;padding:14px 18px;font-size:17px;font-weight:800}.actions .btn:last-child{background:linear-gradient(180deg,var(--accent),var(--accent-strong));color:#fff;border-color:transparent;box-shadow:0 12px 24px rgba(64,129,241,.24)}.actions .btn:first-child{background:rgba(255,255,255,.86);color:#2a67b7;border-color:#d7e8ff}.modal.theme-research{--accent:#5ca0ff;--accent-soft:#e9f4ff;--accent-strong:#377cf6}.modal.theme-gaming{--accent:#a58cff;--accent-soft:#f1ecff;--accent-strong:#8a6cff}.modal.theme-life{--accent:#ffb454;--accent-soft:#fff3de;--accent-strong:#f59a22}.modal.theme-sport{--accent:#7fcf83;--accent-soft:#eefbea;--accent-strong:#58b55f}@media (max-width:760px){.modal{padding:10px 10px calc(18px + env(safe-area-inset-bottom))}.field{margin-bottom:12px}.row.compact{grid-template-columns:1fr}.sheet{border-radius:30px;padding:16px 14px 14px}.modal-head h3{font-size:21px}.actions .btn{min-width:0;padding:13px 12px}}
 .archive-date{color:#617b96}
 @media(max-width:600px){
  body:before{background-position:center top;background-size:auto 100%;}
@@ -429,7 +429,7 @@ body:after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;back
 <body>
 <div class="app">
   <div class="topbar">
-    <div class="brand"><div class="logo"><img src="./icon-192.png" alt=""></div><div>爱摸鱼的XCL</div></div>
+    <div class="brand"><div>爱摸鱼的XCL</div></div>
     <div class="pill">晴天云朵 · 清晨校园版 · v3.0</div>
   </div>
 
@@ -540,8 +540,8 @@ body:after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;back
 <div class="modal" id="modal">
   <div class="sheet">
     <div class="modal-head">
-      <img class="modal-appicon" src="./icon-192.png" alt="XCL图标">
-      <div>
+      <div class="modal-head-text">
+        <div class="modal-kicker">记录一下</div>
         <h3 id="modalTitle">新增记录</h3>
         <div id="modalHint" style="color:var(--muted);font-size:12px;line-height:1.45"></div>
       </div>
@@ -601,7 +601,7 @@ body:after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;back
 
 <script>
 const STORE='xcl-workbench-v1';
-const APP_VERSION='3.0.1';
+const APP_VERSION='3.0.2';
 let currentType='home';
 let editingRecordId=null;
 let data=JSON.parse(localStorage.getItem(STORE)||'[]');
@@ -621,6 +621,8 @@ const modalCopy={
  home:{title:'新增今日记录',hint:'选择所属分区后，记录今天最值得留下的一件事。',titlePH:'标题，例如：完成实验 / 王者+3星 / 看电影',notePH:'今天发生了什么？',valuePH:'结果，例如：完成 / +3星 / 9.0分'}
 };
 const icons={research:'🔬',gaming:'🎮',life:'🍜',sport:'🏸',home:'📌'};
+const categoryLabels={research:'科研类别',gaming:'游戏类别',life:'生活类别',sport:'运动类别',home:'所属分区'};
+const modalThemeClass={research:'theme-research',gaming:'theme-gaming',life:'theme-life',sport:'theme-sport',home:'theme-research'};
 
 function todayISO(){
  const d=new Date();
@@ -649,6 +651,10 @@ function applyModalCopy(type){
  document.getElementById('title').placeholder=c.titlePH;
  document.getElementById('note').placeholder=c.notePH;
  document.getElementById('value').placeholder=c.valuePH;
+ document.getElementById('categoryLabel').textContent=categoryLabels[type]||'活动类别';
+ const modal=document.getElementById('modal');
+ modal.classList.remove('theme-research','theme-gaming','theme-life','theme-sport');
+ modal.classList.add(modalThemeClass[type]||'theme-research');
 }
 function openModal(type){
  editingRecordId=null;

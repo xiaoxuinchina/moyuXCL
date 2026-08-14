@@ -1,35 +1,10 @@
-# 爱摸鱼的XCL · GitHub Pages PWA v1.1 安装修正版
+爱摸鱼的XCL Mobile v3.0.2
 
-## 上传方式
-请把本目录中的所有文件直接上传到仓库 `moyuXCL` 的根目录，不要再套一层文件夹。
+本版更新：
+1. 替换 APP 快捷方式图标为全新晴空云朵笔记图标（不再使用旧 XCL 图标）；
+2. 应用内不再显示旧图标；
+3. 仅重绘“新增记录 / 修改记录”界面风格，首页和主要功能保持不变；
+4. 新增记录弹窗统一为晴天校园玻璃卡片风，并按科研 / 摸鱼 / 生活 / 运动切换不同强调色；
+5. service worker 版本已提升到 3.0.2。
 
-部署地址：
-`https://xiaoxuinchina.github.io/moyuXCL/`
-
-## 本版重点修正
-- manifest 使用固定 GitHub Pages 项目路径 `/moyuXCL/`
-- 新增稳定的 `id`、`scope`、`start_url`
-- 普通图标与 maskable 图标分开声明
-- 新增 Android / Apple Touch 图标
-- Service Worker 使用固定 scope，并加入 skipWaiting / clients.claim
-- HTML 导航使用 network-first，避免更新后一直读旧缓存
-- 外部天气 API 不经过 Service Worker
-- 新增 `.nojekyll`
-- 新增 `pwa-check.html` 安装诊断页
-
-## 重新上传后必须做
-1. 等 GitHub Pages 部署完成。
-2. Android Chrome 打开：
-   `https://xiaoxuinchina.github.io/moyuXCL/pwa-check.html`
-3. 如果各项均为 ✅，再回首页。
-4. Chrome → 网站设置 → 清除该站点数据（用于清掉旧版 PWA/SW 缓存）。
-5. 完全关闭 Chrome 后重新打开首页。
-6. 菜单 → “安装并创建快捷方式” → “安装”。
-
-注意：GitHub Pages 与 PWA 安装是两回事。页面可访问只说明部署成功；手机是否生成 WebAPK 还会受 Chrome/Android 系统环境影响。
-
-
-## v3.0.1 更新
-- 替换首页左上角与 PWA/APP 图标为新的晴天云朵风格 XCL 小鱼图标。
-- 重绘新增/修改记录弹窗，改为更清爽的校园玻璃卡片风。
-- 修复输入框错误三角背景，优化下拉框与日期选择器外观。
+上传方式：将压缩包中的全部文件覆盖到 GitHub Pages 仓库根目录。
