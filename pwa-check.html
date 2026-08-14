@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>XCL PWA 安装检查</title>
+<style>
+body{font-family:system-ui,-apple-system,sans-serif;background:#07111f;color:#fff;padding:24px;line-height:1.7}
+.card{max-width:720px;margin:auto;background:#101d35;border:1px solid #31405a;border-radius:20px;padding:20px}
+.ok{color:#86efac}.bad{color:#fca5a5}.wait{color:#fde68a}code{background:#17243b;padding:2px 6px;border-radius:6px}
+</style></head>
+<body><div class="card">
+<h2>🐟 爱摸鱼的XCL · PWA 安装检查</h2>
+<div id="out">正在检查…</div>
+<p>正常情况下应看到 Manifest、Service Worker、192/512 图标全部为 ✅。</p>
+<p><a href="/moyuXCL/" style="color:#7dd3fc">返回工作台</a></p>
+</div>
+<script>
+(async()=>{
+ const lines=[];
+ const add=(name,ok,detail='')=>lines.push(`<p class="${ok?'ok':'bad'}">${ok?'✅':'❌'} ${name}${detail?'：'+detail:''}</p>`);
+ add('HTTPS', location.protocol==='https:');
+ try{
+   const r=await fetch('/moyuXCL/manifest.json',{cache:'no-store'});
+   const m=await r.json();
+   add('Manifest',r.ok, m.name+' / '+m.start_url);
+ }catch(e){add('Manifest',false,e.message)}
+ for(const p of ['icon-192.png','icon-512.png','icon-maskable-192.png','icon-maskable-512.png']){
+   try{const r=await fetch('/moyuXCL/'+p,{cache:'no-store'});add(p,r.ok,r.status)}catch(e){add(p,false,e.message)}
+ }
+ if('serviceWorker' in navigator){
+   try{
+     const reg=await navigator.serviceWorker.register('/moyuXCL/service-worker.js',{scope:'/moyuXCL/'});
+     await navigator.serviceWorker.ready;
+     add('Service Worker',true,'scope='+reg.scope);
+     add('当前页面受 SW 控制',!!navigator.serviceWorker.controller,
+       navigator.serviceWorker.controller?'已控制':'首次打开时刷新一次即可');
+   }catch(e){add('Service Worker',false,e.message)}
+ }else add('Service Worker 支持',false,'浏览器不支持');
+ document.getElementById('out').innerHTML=lines.join('');
+})();
+</script></body></html>

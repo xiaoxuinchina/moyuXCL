@@ -1,0 +1,47 @@
+{
+  "id": "/moyuXCL/",
+  "name": "爱摸鱼的XCL",
+  "short_name": "摸鱼XCL",
+  "description": "XCL 的科研、摸鱼、生活与运动个人工作台",
+  "lang": "zh-CN",
+  "start_url": "/moyuXCL/?source=pwa",
+  "scope": "/moyuXCL/",
+  "display": "standalone",
+  "display_override": [
+    "window-controls-overlay",
+    "standalone"
+  ],
+  "orientation": "portrait-primary",
+  "background_color": "#07111f",
+  "theme_color": "#08111f",
+  "categories": [
+    "productivity",
+    "lifestyle"
+  ],
+  "icons": [
+    {
+      "src": "/moyuXCL/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/moyuXCL/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/moyuXCL/icon-maskable-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/moyuXCL/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

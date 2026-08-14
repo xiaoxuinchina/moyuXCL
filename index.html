@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="theme-color" content="#08111f" />
+<title>爱摸鱼的XCL</title>
+<link rel="manifest" href="/moyuXCL/manifest.json">
+<style>
+:root{
+  --bg:#07111f;
+  --bg2:#0b1730;
+  --card:rgba(255,255,255,.09);
+  --card2:rgba(255,255,255,.055);
+  --line:rgba(255,255,255,.12);
+  --text:#f7fbff;
+  --muted:#9fb2cc;
+  --accent:#7dd3fc;
+  --accent2:#a78bfa;
+  --good:#86efac;
+  --warn:#fde68a;
+  --shadow:0 20px 60px rgba(0,0,0,.3);
+}
+*{box-sizing:border-box}
+body{
+  margin:0; min-height:100vh; color:var(--text);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+  background:
+    radial-gradient(circle at 10% 10%, rgba(125,211,252,.13), transparent 24%),
+    radial-gradient(circle at 90% 20%, rgba(167,139,250,.14), transparent 26%),
+    linear-gradient(160deg,var(--bg),var(--bg2));
+  overflow-x:hidden;
+}
+body:before{
+  content:""; position:fixed; inset:0; pointer-events:none; opacity:.2;
+  background-image:radial-gradient(rgba(255,255,255,.5) .7px, transparent .7px);
+  background-size:28px 28px;
+}
+.app{max-width:1120px;margin:auto;padding:24px 18px 104px}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:18px}
+.brand{display:flex;align-items:center;gap:12px;font-weight:800;letter-spacing:.4px}
+.logo{
+  width:42px;height:42px;border-radius:14px;display:grid;place-items:center;
+  background:linear-gradient(135deg,rgba(125,211,252,.2),rgba(167,139,250,.22));
+  border:1px solid var(--line);box-shadow:var(--shadow);font-size:22px
+}
+.pill{
+  padding:8px 11px;border-radius:999px;border:1px solid var(--line);
+  background:rgba(255,255,255,.05);font-size:12px;color:var(--muted)
+}
+.page{display:none;animation:fade .35s ease}
+.page.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.hero{
+  position:relative;overflow:hidden;
+  background:
+    radial-gradient(circle at 18% 20%, rgba(255,255,255,.15), transparent 22%),
+    radial-gradient(circle at 84% 18%, rgba(167,139,250,.22), transparent 30%),
+    linear-gradient(135deg,rgba(125,211,252,.14),rgba(167,139,250,.12));
+  border:1px solid var(--line);border-radius:34px;padding:28px;box-shadow:var(--shadow)
+}
+.hero:before{
+  content:"";position:absolute;inset:auto -40px -40px auto;width:220px;height:220px;border-radius:50%;
+  background:radial-gradient(circle, rgba(125,211,252,.18), transparent 65%);filter:blur(10px);pointer-events:none
+}
+.hero:after{
+  content:"";position:absolute;left:-60px;top:-60px;width:180px;height:180px;border-radius:50%;
+  background:radial-gradient(circle, rgba(255,255,255,.10), transparent 70%);pointer-events:none
+}
+.hero-main{position:relative;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:22px}
+.hero-copy{flex:1;min-width:0;padding-right:10px}
+.hero-subtitle{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+.hero-chip{padding:8px 12px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);font-size:12px;color:#dbeafe}
+.hero-copy h1{font-size:clamp(30px,5vw,58px);line-height:1.0;margin:6px 0 12px;letter-spacing:-2px}
+.hero-copy p{margin:0;color:var(--muted)}
+.hero-note{margin-top:14px;display:flex;align-items:flex-start;gap:10px;max-width:560px}
+.note-bubble{
+  background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.12);padding:12px 14px;border-radius:18px 18px 18px 6px;
+  color:#e6f2ff;font-size:13px;line-height:1.65;box-shadow:0 12px 28px rgba(0,0,0,.18)
+}
+.note-avatar{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.12)}
+.hero-avatar-wrap{flex:0 0 auto;display:flex;justify-content:flex-end;position:relative;z-index:2}
+.hero-avatar-card{
+  position:relative;width:184px;padding:12px;border-radius:30px;border:1px solid rgba(255,255,255,.16);
+  background:linear-gradient(180deg,rgba(255,255,255,.14),rgba(255,255,255,.06));
+  backdrop-filter:blur(18px);box-shadow:0 24px 50px rgba(0,0,0,.3);animation:floatCard 5s ease-in-out infinite;
+}
+.hero-avatar-card:before{
+  content:"";position:absolute;inset:-1px;border-radius:inherit;padding:1px;
+  background:linear-gradient(135deg, rgba(255,255,255,.32), rgba(125,211,252,.16), rgba(167,139,250,.16));
+  -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;
+}
+.hero-avatar-card:after{
+  content:"";position:absolute;right:14px;top:-10px;width:54px;height:54px;border-radius:16px;
+  background:linear-gradient(135deg, rgba(125,211,252,.85), rgba(167,139,250,.9));
+  filter:blur(28px);opacity:.5;pointer-events:none
+}
+.hero-avatar{
+  width:100%;aspect-ratio:1/1;display:block;object-fit:cover;border-radius:22px;
+  border:1px solid rgba(255,255,255,.18)
+}
+.hero-avatar-label{margin-top:10px;display:flex;align-items:center;justify-content:space-between;font-size:12px;color:var(--muted)}
+.hero-avatar-label b{font-size:13px;color:#f2f8ff}
+.avatar-badge{padding:5px 8px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:#dbeafe}
+.hero-mini-panels{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.hero-mini{
+  padding:10px 12px;border-radius:18px;background:rgba(255,255,255,.075);border:1px solid rgba(255,255,255,.1);
+  font-size:12px;color:var(--muted)
+}
+.hero-mini strong{display:block;font-size:15px;color:#f8fbff;margin-top:4px}
+.hero-ribbon{position:absolute;left:22px;top:20px;transform:rotate(-6deg);padding:8px 12px;border-radius:14px;
+  background:linear-gradient(135deg,#f9a8d4,#c4b5fd);color:#27163a;font-weight:800;font-size:12px;box-shadow:0 10px 20px rgba(0,0,0,.18);z-index:3}
+.fish{
+  position:absolute;right:-12px;bottom:8px;font-size:84px;
+  filter:drop-shadow(0 12px 24px rgba(0,0,0,.28));
+  animation:swim 4s ease-in-out infinite;z-index:1
+}
+.sparkles{position:absolute;inset:0;pointer-events:none;z-index:1}
+.sparkles span{position:absolute;font-size:14px;opacity:.8;animation:twinkle 3s ease-in-out infinite}
+.sparkles span:nth-child(1){left:16%;top:18%;animation-delay:.2s}
+.sparkles span:nth-child(2){left:42%;top:14%;animation-delay:1s}
+.sparkles span:nth-child(3){right:24%;top:22%;animation-delay:1.8s}
+.sparkles span:nth-child(4){right:18%;bottom:28%;animation-delay:1.2s}
+.sparkles span:nth-child(5){left:12%;bottom:20%;animation-delay:.7s}
+.anime-bubbles{position:absolute;inset:0;pointer-events:none;z-index:1}
+.anime-bubbles i{position:absolute;display:block;border-radius:50%;background:radial-gradient(circle at 30% 30%, rgba(255,255,255,.26), rgba(125,211,252,.08) 60%, transparent 72%);animation:floatBubble linear infinite}
+.anime-bubbles i:nth-child(1){width:90px;height:90px;left:58%;bottom:-10px;animation-duration:10s}
+.anime-bubbles i:nth-child(2){width:44px;height:44px;left:76%;bottom:40px;animation-duration:8s;animation-delay:1s}
+.anime-bubbles i:nth-child(3){width:58px;height:58px;left:8%;bottom:18px;animation-duration:9s;animation-delay:2s}
+.anime-bubbles i:nth-child(4){width:30px;height:30px;left:34%;bottom:12px;animation-duration:7s;animation-delay:1.5s}
+@keyframes swim{0%,100%{transform:translateX(0) rotate(-4deg)}50%{transform:translateX(-26px) translateY(-8px) rotate(4deg)}}
+@keyframes twinkle{0%,100%{transform:scale(.85);opacity:.45}50%{transform:scale(1.25);opacity:1}}
+@keyframes floatBubble{0%{transform:translateY(0) translateX(0);opacity:0}15%{opacity:.7}100%{transform:translateY(-220px) translateX(14px);opacity:0}}
+@keyframes floatCard{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:20px}
+.stat,.card{
+  border:1px solid var(--line);background:var(--card);backdrop-filter:blur(18px);
+  border-radius:22px;box-shadow:var(--shadow)
+}
+.stat{padding:16px}
+.stat .k{font-size:12px;color:var(--muted);margin-bottom:8px}
+.stat .v{font-size:24px;font-weight:800}
+.stat .sub{font-size:12px;color:var(--muted);margin-top:5px}
+.section-title{display:flex;align-items:center;justify-content:space-between;margin:26px 2px 12px}
+.section-title h2{margin:0;font-size:18px}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.module{padding:18px;min-height:132px;cursor:pointer;transition:.2s}
+.module:hover{transform:translateY(-3px);background:rgba(255,255,255,.11)}
+.module .icon{font-size:28px}
+.module h3{margin:14px 0 4px;font-size:16px}
+.module p{margin:0;color:var(--muted);font-size:13px;line-height:1.6}
+.progress{height:7px;background:rgba(255,255,255,.07);border-radius:999px;overflow:hidden;margin-top:13px}
+.progress i{display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,var(--accent),var(--accent2))}
+.two{display:grid;grid-template-columns:1.1fr .9fr;gap:12px}
+.card{padding:18px}
+.timeline{display:flex;flex-direction:column;gap:10px}
+.trow{display:flex;gap:11px;align-items:flex-start;padding:11px;border-radius:15px;background:var(--card2);border:1px solid rgba(255,255,255,.07)}
+.ticon{font-size:20px}
+.tmain{flex:1}
+.tmain b{font-size:14px}
+.tmain small{display:block;color:var(--muted);margin-top:4px}
+.metric{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.08)}
+.metric:last-child{border-bottom:0}
+.metric strong{font-size:22px}
+.page-head{display:flex;align-items:end;justify-content:space-between;margin-bottom:16px;gap:16px}
+.page-head h1{margin:0;font-size:30px}
+.page-head p{margin:7px 0 0;color:var(--muted)}
+.btn{
+  border:1px solid var(--line);background:rgba(255,255,255,.08);color:white;border-radius:14px;
+  padding:10px 14px;font-weight:700;cursor:pointer
+}
+.btn:hover{background:rgba(255,255,255,.13)}
+.records{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.record{padding:16px}
+.record-top{display:flex;justify-content:space-between;gap:12px}
+.record h3{margin:0 0 6px}
+.record p{margin:0;color:var(--muted);line-height:1.6;font-size:13px}
+.tag{display:inline-flex;margin-top:10px;padding:6px 9px;border-radius:999px;background:rgba(125,211,252,.1);border:1px solid rgba(125,211,252,.18);font-size:11px;color:#d7f3ff}
+.achievements{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}
+.ach{padding:18px;text-align:center}
+.ach strong{font-size:32px}
+.ach span{display:block;color:var(--muted);font-size:12px;margin-top:4px}
+.bottom-nav{
+  position:fixed;z-index:50;left:50%;transform:translateX(-50%);bottom:14px;
+  width:min(700px,calc(100% - 24px));padding:8px;display:grid;grid-template-columns:repeat(5,1fr);
+  border:1px solid var(--line);background:rgba(6,15,28,.78);backdrop-filter:blur(22px);
+  border-radius:22px;box-shadow:0 14px 50px rgba(0,0,0,.45)
+}
+.navbtn{
+  border:0;background:transparent;color:var(--muted);padding:8px 6px;border-radius:15px;
+  display:flex;flex-direction:column;gap:4px;align-items:center;cursor:pointer;font-size:11px
+}
+.navbtn span:first-child{font-size:19px}
+.navbtn.active{color:white;background:rgba(255,255,255,.08)}
+.modal{
+  position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.56);display:none;place-items:center;padding:18px
+}
+.modal.show{display:grid}
+.sheet{
+  width:min(520px,100%);background:#0d1830;border:1px solid var(--line);border-radius:24px;padding:20px;box-shadow:var(--shadow)
+}
+.sheet h3{margin:0 0 16px}
+input,textarea,select{
+  width:100%;margin:6px 0 12px;padding:12px;border-radius:12px;border:1px solid var(--line);
+  background:rgba(255,255,255,.06);color:white;outline:none
+}
+textarea{min-height:84px;resize:vertical}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.actions{display:flex;justify-content:flex-end;gap:8px}
+.empty{padding:28px;text-align:center;color:var(--muted)}
+.danger{color:#fecaca;cursor:pointer;font-size:12px}
+.weather-note{cursor:pointer;text-decoration:underline;text-decoration-style:dotted}
+@media(max-width:800px){
+  .grid4{grid-template-columns:repeat(2,1fr)}
+  .two{grid-template-columns:1fr}
+  .records{grid-template-columns:1fr}
+  .hero{padding:22px}
+}
+@media(max-width:800px){
+  .hero-main{flex-direction:column;align-items:flex-start}
+  .hero-avatar-wrap{width:100%;justify-content:flex-start}
+  .hero-mini-panels{grid-template-columns:1fr 1fr}
+}
+@media(max-width:560px){
+  .app{padding:14px 12px 96px}
+  .stats{grid-template-columns:1fr}
+  .achievements{grid-template-columns:repeat(3,1fr)}
+  .ach strong{font-size:24px}
+  .topbar .pill{display:none}
+  .fish{font-size:64px;opacity:.8}
+  .hero-avatar-card{width:132px;padding:8px;border-radius:24px}
+  .hero-copy{padding-right:0}
+  .hero-ribbon{left:16px;top:16px;font-size:11px}
+  .hero-note{max-width:none}
+  .hero-mini-panels{grid-template-columns:1fr}
+}
+</style>
+<link rel="apple-touch-icon" href="/moyuXCL/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="64x64" href="/moyuXCL/favicon-64.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="application-name" content="爱摸鱼的XCL">
+<meta name="apple-mobile-web-app-title" content="爱摸鱼的XCL">
+</head>
+<body>
+<div class="app">
+  <div class="topbar">
+    <div class="brand"><div class="logo">🐟</div><div>爱摸鱼的XCL</div></div>
+    <div class="pill">你的个人数字生活工作台 · v2.0 二次元动态版</div>
+  </div>
+
+  <section id="home" class="page active">
+    <div class="hero">
+      <div class="hero-ribbon">Anime Home · XCL Mode</div>
+      <div class="sparkles"><span>✦</span><span>✦</span><span>✦</span><span>✦</span><span>✦</span></div>
+      <div class="anime-bubbles"><i></i><i></i><i></i><i></i></div>
+      <div class="hero-main">
+        <div class="hero-copy">
+          <div class="hero-subtitle">
+            <div class="hero-chip" id="dateText"></div>
+            <div class="hero-chip" id="modeBadge">今日状态 · 摸鱼待机中</div>
+          </div>
+          <h1 id="greeting">Good morning, XCL.</h1>
+          <p>认真科研，快乐生活，合理摸鱼。欢迎来到你的二次元工作台主页。</p>
+          <div class="hero-note">
+            <div class="note-avatar">🌙</div>
+            <div class="note-bubble" id="otakuNote">欢迎回来，XCL。今天也要把科研、生活、游戏和运动都记录下来喔。</div>
+          </div>
+          <div class="hero-mini-panels">
+            <div class="hero-mini">今日主线<strong id="dailyMission">科研推进 + 快乐生活</strong></div>
+            <div class="hero-mini">心情能量<strong id="moodText">元气在线 ✨</strong></div>
+          </div>
+        </div>
+        <div class="hero-avatar-wrap">
+          <div class="hero-avatar-card">
+            <img class="hero-avatar" src="./xcl_avatar.jpg" alt="XCL 头像">
+            <div class="hero-avatar-label"><b>XCL</b><span class="avatar-badge">专属头像卡</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="fish">🐟</div>
+      <div class="stats">
+        <div class="stat"><div class="k">当地天气</div><div class="v" id="weatherMain">☁️ --°C</div><div class="sub weather-note" id="weatherSub" onclick="loadWeather()">点击获取当前位置天气</div></div>
+        <div class="stat"><div class="k">当前时间</div><div class="v" id="clock">--:--</div><div class="sub" id="weekday">Friday</div></div>
+        <div class="stat"><div class="k">今日摸鱼指数</div><div class="v" id="fishIndex">68 / 100</div><div class="sub" id="fishComment">适度摸鱼，状态良好 🐟</div></div>
+      </div>
+    </div>
+
+    <div class="section-title"><h2>今日状态</h2><span class="pill" id="todayCount">0 条记录</span></div>
+    <div class="grid4">
+      <div class="card module" onclick="go('research')"><div class="icon">🔬</div><h3>科研工作区</h3><p id="homeResearch">记录 SCI、专利、竞赛和研究进展</p><div class="progress"><i style="width:78%"></i></div></div>
+      <div class="card module" onclick="go('gaming')"><div class="icon">🎮</div><h3>摸鱼区</h3><p id="homeGaming">王者 / LOL / 云顶之弈上分记录</p><div class="progress"><i style="width:56%"></i></div></div>
+      <div class="card module" onclick="go('life')"><div class="icon">🍜</div><h3>生活区</h3><p id="homeLife">干饭、电影、3D 打印和日常</p><div class="progress"><i style="width:66%"></i></div></div>
+      <div class="card module" onclick="go('sport')"><div class="icon">🏸</div><h3>运动区</h3><p id="homeSport">乒乓球、羽毛球、足球、排球</p><div class="progress"><i style="width:72%"></i></div></div>
+    </div>
+
+    <div class="section-title"><h2>今日时间线</h2><button class="btn" onclick="openModal('home')">+ 新记录</button></div>
+    <div class="two">
+      <div class="card"><div class="timeline" id="todayTimeline"></div></div>
+      <div class="card">
+        <div class="metric"><span>科研成果</span><strong id="metricSci">0</strong></div>
+        <div class="metric"><span>本周摸鱼记录</span><strong id="metricGame">0</strong></div>
+        <div class="metric"><span>本月运动次数</span><strong id="metricSport">0</strong></div>
+        <div class="metric"><span>生活记录</span><strong id="metricLife">0</strong></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="research" class="page">
+    <div class="page-head"><div><h1>🔬 科研工作区</h1><p>论文、专利、竞赛与科研日志。</p></div><button class="btn" onclick="openModal('research')">+ 新增</button></div>
+    <div class="achievements">
+      <div class="card ach"><strong id="sciCount">0</strong><span>SCI / 论文记录</span></div>
+      <div class="card ach"><strong id="patentCount">0</strong><span>专利记录</span></div>
+      <div class="card ach"><strong id="contestCount">0</strong><span>竞赛记录</span></div>
+    </div>
+    <div class="records" id="researchRecords"></div>
+  </section>
+
+  <section id="gaming" class="page">
+    <div class="page-head"><div><h1>🎮 摸鱼区</h1><p>今天上分了吗？输了也算生活记录。</p></div><button class="btn" onclick="openModal('gaming')">+ 打卡</button></div>
+    <div class="records" id="gamingRecords"></div>
+  </section>
+
+  <section id="life" class="page">
+    <div class="page-head"><div><h1>🍜 生活区</h1><p>干饭、电影、3D 打印、日常碎片。</p></div><button class="btn" onclick="openModal('life')">+ 记录</button></div>
+    <div class="records" id="lifeRecords"></div>
+  </section>
+
+  <section id="sport" class="page">
+    <div class="page-head"><div><h1>🏸 运动区</h1><p>乒乓球 / 羽毛球 / 足球 / 排球等运动记录。</p></div><button class="btn" onclick="openModal('sport')">+ 运动</button></div>
+    <div class="records" id="sportRecords"></div>
+  </section>
+</div>
+
+<nav class="bottom-nav">
+  <button class="navbtn active" data-page="home" onclick="go('home')"><span>🏠</span><span>首页</span></button>
+  <button class="navbtn" data-page="research" onclick="go('research')"><span>🔬</span><span>科研</span></button>
+  <button class="navbtn" data-page="gaming" onclick="go('gaming')"><span>🎮</span><span>摸鱼</span></button>
+  <button class="navbtn" data-page="life" onclick="go('life')"><span>🍜</span><span>生活</span></button>
+  <button class="navbtn" data-page="sport" onclick="go('sport')"><span>🏸</span><span>运动</span></button>
+</nav>
+
+<div class="modal" id="modal">
+  <div class="sheet">
+    <h3 id="modalTitle">新增记录</h3>
+    <div class="row">
+      <select id="category"></select>
+      <input id="title" placeholder="标题，例如：羽毛球 90 min">
+    </div>
+    <textarea id="note" placeholder="今天发生了什么？"></textarea>
+    <div class="row">
+      <input id="value" placeholder="数值/结果，例如：+3星、8.5分">
+      <input id="date" type="date">
+    </div>
+    <div class="actions">
+      <button class="btn" onclick="closeModal()">取消</button>
+      <button class="btn" onclick="saveRecord()">保存记录</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const STORE='xcl-workbench-v1';
+let currentType='home';
+let data=JSON.parse(localStorage.getItem(STORE)||'[]');
+
+const configs={
+ research:['SCI论文','专利','竞赛','科研日志'],
+ gaming:['王者荣耀','英雄联盟','云顶之弈','其他游戏'],
+ life:['干饭','电影','3D打印','日常'],
+ sport:['乒乓球','羽毛球','足球','排球','其他运动'],
+ home:['科研','摸鱼','生活','运动']
+};
+const icons={research:'🔬',gaming:'🎮',life:'🍜',sport:'🏸',home:'📌'};
+
+function todayISO(){return new Date().toISOString().slice(0,10)}
+function esc(s=''){return s.replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+
+function go(id){
+ document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
+ document.getElementById(id).classList.add('active');
+ document.querySelectorAll('.navbtn').forEach(x=>x.classList.toggle('active',x.dataset.page===id));
+ window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function openModal(type){
+ currentType=type;
+ document.getElementById('modal').classList.add('show');
+ const cat=document.getElementById('category');
+ cat.innerHTML=configs[type].map(x=>`<option>${x}</option>`).join('');
+ document.getElementById('date').value=todayISO();
+ document.getElementById('title').value='';
+ document.getElementById('note').value='';
+ document.getElementById('value').value='';
+}
+function closeModal(){document.getElementById('modal').classList.remove('show')}
+
+function saveRecord(){
+ const title=document.getElementById('title').value.trim();
+ if(!title)return alert('先写一个标题吧 🐟');
+ const map={科研:'research',摸鱼:'gaming',生活:'life',运动:'sport'};
+ let type=currentType;
+ let category=document.getElementById('category').value;
+ if(type==='home') type=map[category]||'life';
+ data.unshift({
+   id:Date.now(), type, category,
+   title, note:document.getElementById('note').value.trim(),
+   value:document.getElementById('value').value.trim(),
+   date:document.getElementById('date').value||todayISO(),
+   created:new Date().toISOString()
+ });
+ persist();closeModal();render();
+}
+function del(id){
+ if(confirm('删除这条记录？')){
+   data=data.filter(x=>x.id!==id);persist();render();
+ }
+}
+function persist(){localStorage.setItem(STORE,JSON.stringify(data))}
+
+function renderList(type,el){
+ const items=data.filter(x=>x.type===type);
+ const root=document.getElementById(el);
+ if(!items.length){
+   root.innerHTML='<div class="card empty">还没有记录。第一条就从今天开始吧 🐟</div>';return;
+ }
+ root.innerHTML=items.map(x=>`
+   <div class="card record">
+     <div class="record-top">
+       <div><h3>${esc(x.title)}</h3><p>${esc(x.note||'没有备注')}</p></div>
+       <div class="danger" onclick="del(${x.id})">删除</div>
+     </div>
+     <span class="tag">${esc(x.category)} · ${esc(x.date)}${x.value?' · '+esc(x.value):''}</span>
+   </div>`).join('');
+}
+function render(){
+ renderList('research','researchRecords');
+ renderList('gaming','gamingRecords');
+ renderList('life','lifeRecords');
+ renderList('sport','sportRecords');
+
+ const sci=data.filter(x=>x.type==='research'&&x.category==='SCI论文').length;
+ const patent=data.filter(x=>x.type==='research'&&x.category==='专利').length;
+ const contest=data.filter(x=>x.type==='research'&&x.category==='竞赛').length;
+ document.getElementById('sciCount').textContent=sci;
+ document.getElementById('patentCount').textContent=patent;
+ document.getElementById('contestCount').textContent=contest;
+ document.getElementById('metricSci').textContent=sci+patent+contest;
+
+ const month=todayISO().slice(0,7);
+ const weekAgo=new Date(Date.now()-7*86400000);
+ document.getElementById('metricGame').textContent=data.filter(x=>x.type==='gaming'&&new Date(x.date)>=weekAgo).length;
+ document.getElementById('metricSport').textContent=data.filter(x=>x.type==='sport'&&x.date.startsWith(month)).length;
+ document.getElementById('metricLife').textContent=data.filter(x=>x.type==='life').length;
+
+ const todays=data.filter(x=>x.date===todayISO());
+ document.getElementById('todayCount').textContent=todays.length+' 条记录';
+ const tl=document.getElementById('todayTimeline');
+ tl.innerHTML=todays.length?todays.slice(0,8).map(x=>`
+   <div class="trow"><div class="ticon">${icons[x.type]}</div><div class="tmain">
+   <b>${esc(x.title)}</b><small>${esc(x.category)}${x.value?' · '+esc(x.value):''}${x.note?' · '+esc(x.note):''}</small>
+   </div></div>`).join(''):'<div class="empty">今天还没有记录，先留下第一条吧。</div>';
+
+ const todayGames=todays.filter(x=>x.type==='gaming').length;
+ const todayResearch=todays.filter(x=>x.type==='research').length;
+ const todaySport=todays.filter(x=>x.type==='sport').length;
+ let score=Math.max(0,Math.min(100,52+todayGames*14-todayResearch*5-todaySport*3));
+ document.getElementById('fishIndex').textContent=score+' / 100';
+ document.getElementById('fishComment').textContent=
+   score>=80?'今天很会摸，注意科研余额 🐟':
+   score>=60?'适度摸鱼，状态良好 🐟':
+   score>=40?'科研浓度偏高，建议补鱼 🐟':'今日过于努力，强烈建议摸鱼 🐟';
+}
+
+const animeNotes=[
+ '欢迎回来，XCL。今天也要把科研、生活、游戏和运动都记录下来喔。',
+ '二次元主页已启动：先完成主线任务，再开启摸鱼支线。',
+ '今天也请保持可爱与高效并存，记得顺手更新你的成果墙。',
+ '如果科研有点累，就来首页看看天气、时间，再轻轻摸一下鱼。'
+];
+const missions=['科研推进 + 快乐生活','生活打卡 + 游戏上分','运动充电 + 晚间复盘','主线科研 + 支线摸鱼'];
+const moods=['元气在线 ✨','平稳输出 🌤️','科研专注中 📚','今天也要快乐摸鱼 🐟'];
+let animeIdx=0;
+function tick(){
+ const d=new Date(),h=d.getHours();
+ document.getElementById('clock').textContent=d.toLocaleTimeString('zh-CN',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+ document.getElementById('dateText').textContent=d.toLocaleDateString('zh-CN',{year:'numeric',month:'long',day:'numeric'});
+ document.getElementById('weekday').textContent=d.toLocaleDateString('en-US',{weekday:'long'});
+ document.getElementById('greeting').textContent=(h<12?'Good morning':h<18?'Good afternoon':'Good evening')+', XCL.';
+ const mode = h<12 ? '晨间启动中' : h<18 ? '日间任务中' : '夜间治愈中';
+ const badge=document.getElementById('modeBadge');
+ if(badge) badge.textContent='今日状态 · '+mode;
+}
+function rotateAnimeHero(){
+ animeIdx=(animeIdx+1)%animeNotes.length;
+ const note=document.getElementById('otakuNote');
+ const mission=document.getElementById('dailyMission');
+ const mood=document.getElementById('moodText');
+ if(note) note.textContent=animeNotes[animeIdx];
+ if(mission) mission.textContent=missions[animeIdx % missions.length];
+ if(mood) mood.textContent=moods[animeIdx % moods.length];
+}
+setInterval(tick,1000);tick();
+setInterval(rotateAnimeHero,5000);
+
+async function loadWeather(){
+ const sub=document.getElementById('weatherSub');
+ if(!navigator.geolocation){sub.textContent='当前浏览器不支持定位';return}
+ sub.textContent='正在获取位置…';
+ navigator.geolocation.getCurrentPosition(async pos=>{
+   try{
+     const {latitude,longitude}=pos.coords;
+     const url=`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,weather_code&timezone=auto`;
+     const r=await fetch(url); const j=await r.json();
+     const c=j.current?.weather_code??0, t=Math.round(j.current?.temperature_2m);
+     const wx=c===0?'☀️':c<=3?'⛅':c<=48?'🌫️':c<=67?'🌧️':c<=77?'🌨️':c<=82?'🌦️':'⛈️';
+     document.getElementById('weatherMain').textContent=`${wx} ${t}°C`;
+     sub.textContent='当前位置 · Open-Meteo';
+   }catch(e){sub.textContent='天气获取失败，点击重试'}
+ },()=>sub.textContent='未获得定位权限，点击重试',{timeout:8000});
+}
+
+document.getElementById('modal').addEventListener('click',e=>{if(e.target.id==='modal')closeModal()});
+render();
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/moyuXCL/service-worker.js', { scope: '/moyuXCL/' })
+      .then(reg => reg.update())
+      .catch(err => console.warn('Service Worker registration failed:', err));
+  });
+}
+</script>
+</body>
+</html>
