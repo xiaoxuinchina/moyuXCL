@@ -353,7 +353,7 @@ textarea{min-height:84px;resize:vertical}
 <div class="app">
   <div class="topbar">
     <div class="brand"><div class="logo">🐟</div><div>爱摸鱼的XCL</div></div>
-    <div class="pill">你的个人数字生活工作台 · v2.2 时间统计版</div>
+    <div class="pill">你的个人数字生活工作台 · v2.2.1 稳定修正版</div>
   </div>
 
   <section id="home" class="page active">
@@ -389,7 +389,7 @@ textarea{min-height:84px;resize:vertical}
       <div class="stats">
         <div class="stat"><div class="k">当地天气</div><div class="v" id="weatherMain">☁️ --°C</div><div class="sub weather-note" id="weatherSub" onclick="loadWeather()">点击获取当前位置天气</div></div>
         <div class="stat"><div class="k">当前时间</div><div class="v" id="clock">--:--</div><div class="sub" id="weekday">Friday</div></div>
-        <div class="stat"><div class="k">今日摸鱼指数</div><div class="v" id="fishIndex">68 / 100</div><div class="sub" id="fishComment">适度摸鱼，状态良好 🐟</div></div>
+        <div class="stat"><div class="k">今日摸鱼指数</div><div class="v" id="fishIndex">50 / 100</div><div class="sub" id="fishComment">录入活动时长后自动计算</div></div>
       </div>
     </div>
 
@@ -504,7 +504,17 @@ const modalCopy={
 };
 const icons={research:'🔬',gaming:'🎮',life:'🍜',sport:'🏸',home:'📌'};
 
-function todayISO(){return new Date().toISOString().slice(0,10)}\nfunction formatDuration(mins){mins=Number(mins)||0;if(mins<=0)return '';const h=Math.floor(mins/60),m=mins%60;return h?(m?`${h}h ${m}min`:`${h}h`):`${m}min`;}\nfunction totalMinutes(items,type){return items.filter(x=>x.type===type).reduce((s,x)=>s+(Number(x.duration)||0),0);}\nlet archiveFilter='all';\nfunction setArchiveFilter(filter,btn){archiveFilter=filter;document.querySelectorAll('.archive-filter').forEach(x=>x.classList.remove('active-filter'));if(btn)btn.classList.add('active-filter');renderArchive();}\nfunction renderArchive(){const root=document.getElementById('archiveRecords');if(!root)return;const items=[...data].filter(x=>archiveFilter==='all'||x.type===archiveFilter).sort((a,b)=>(b.date||'').localeCompare(a.date||'')||(b.id-a.id));if(!items.length){root.innerHTML='<div class="card empty">还没有历史活动记录。</div>';return;}let last='';root.innerHTML=items.map(x=>{const head=x.date!==last?`<div class="archive-date">${last=x.date}</div>`:'';return head+`<div class="card record"><div class="record-top"><div><h3>${icons[x.type]} ${esc(x.title)}</h3><p>${esc(x.note||'没有备注')}</p></div><div class="danger" onclick="del(${x.id})">删除</div></div><span class="tag">${esc(x.category)}${x.value?' · '+esc(x.value):''}${x.duration?' · '+formatDuration(x.duration):''}</span></div>`;}).join('');}\n
+function todayISO(){
+ const d=new Date();
+ const y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,'0'),day=String(d.getDate()).padStart(2,'0');
+ return `${y}-${m}-${day}`;
+}
+function formatDuration(mins){mins=Number(mins)||0;if(mins<=0)return '';const h=Math.floor(mins/60),m=mins%60;return h?(m?`${h}h ${m}min`:`${h}h`):`${m}min`;}
+function totalMinutes(items,type){return items.filter(x=>x.type===type).reduce((s,x)=>s+(Number(x.duration)||0),0);}
+let archiveFilter='all';
+function setArchiveFilter(filter,btn){archiveFilter=filter;document.querySelectorAll('.archive-filter').forEach(x=>x.classList.remove('active-filter'));if(btn)btn.classList.add('active-filter');renderArchive();}
+function renderArchive(){const root=document.getElementById('archiveRecords');if(!root)return;const items=[...data].filter(x=>archiveFilter==='all'||x.type===archiveFilter).sort((a,b)=>(b.date||'').localeCompare(a.date||'')||(b.id-a.id));if(!items.length){root.innerHTML='<div class="card empty">还没有历史活动记录。</div>';return;}let last='';root.innerHTML=items.map(x=>{const head=x.date!==last?`<div class="archive-date">${last=x.date}</div>`:'';return head+`<div class="card record"><div class="record-top"><div><h3>${icons[x.type]} ${esc(x.title)}</h3><p>${esc(x.note||'没有备注')}</p></div><div class="danger" onclick="del(${x.id})">删除</div></div><span class="tag">${esc(x.category)}${x.value?' · '+esc(x.value):''}${x.duration?' · '+formatDuration(x.duration):''}</span></div>`;}).join('');}
+
 function esc(s=''){return s.replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
 
 function go(id){
@@ -605,7 +615,18 @@ function renderList(type,el){
      <span class="tag">${esc(x.category)} · ${esc(x.date)}${x.value?' · '+esc(x.value):''}${x.duration?' · '+formatDuration(x.duration):''}</span>
    </div>`).join('');
 }
-function render(){\n renderList('research','researchRecords');renderList('gaming','gamingRecords');renderList('life','lifeRecords');renderList('sport','sportRecords');renderArchive();\n const sci=data.filter(x=>x.type==='research'&&x.category==='SCI论文').length;const patent=data.filter(x=>x.type==='research'&&x.category==='专利').length;const contest=data.filter(x=>x.type==='research'&&x.category==='竞赛').length;document.getElementById('sciCount').textContent=sci;document.getElementById('patentCount').textContent=patent;document.getElementById('contestCount').textContent=contest;document.getElementById('metricSci').textContent=sci+patent+contest;\n const month=todayISO().slice(0,7),weekAgo=new Date(Date.now()-7*86400000);document.getElementById('metricGame').textContent=data.filter(x=>x.type==='gaming'&&new Date(x.date)>=weekAgo).length;document.getElementById('metricSport').textContent=data.filter(x=>x.type==='sport'&&x.date.startsWith(month)).length;document.getElementById('metricLife').textContent=data.filter(x=>x.type==='life').length;\n const todays=data.filter(x=>x.date===todayISO());document.getElementById('todayCount').textContent=todays.length+' 条记录';const tl=document.getElementById('todayTimeline');tl.innerHTML=todays.length?todays.slice(0,8).map(x=>`<div class="trow"><div class="ticon">${icons[x.type]}</div><div class="tmain"><b>${esc(x.title)}</b><small>${esc(x.category)}${x.value?' · '+esc(x.value):''}${x.duration?' · '+formatDuration(x.duration):''}${x.note?' · '+esc(x.note):''}</small></div></div>`).join(''):'<div class="empty">今天还没有记录，先留下第一条吧。</div>';\n const R=totalMinutes(todays,'research'),G=totalMinutes(todays,'gaming'),L=totalMinutes(todays,'life'),S=totalMinutes(todays,'sport'),T=R+G+L+S;\n const vals={progressResearch:R,progressGaming:G,progressLife:L,progressSport:S};Object.entries(vals).forEach(([id,v])=>document.getElementById(id).style.width=(T?100*v/T:0).toFixed(1)+'%');\n let score=50;if(T>0){const balance=(1.00*G+0.45*L+0.15*S-0.75*R)/T;score=Math.round(Math.max(0,Math.min(100,50+50*balance)));}\n document.getElementById('fishIndex').textContent=score+' / 100';document.getElementById('fishComment').textContent=T===0?'录入活动时长后自动计算':score>=80?'高浓度摸鱼日 🐟':score>=60?'摸鱼偏多，生活感不错 🐟':score>=40?'工作与摸鱼较平衡':'科研浓度较高，摸鱼偏少';\n const pairs=[['科研',R],['摸鱼',G],['生活',L],['运动',S]].sort((a,b)=>b[1]-a[1]);document.getElementById('dailyMission').textContent=T?pairs[0][0]+'为主':'尚未记录';\n}\n
+function render(){
+ renderList('research','researchRecords');renderList('gaming','gamingRecords');renderList('life','lifeRecords');renderList('sport','sportRecords');renderArchive();
+ const sci=data.filter(x=>x.type==='research'&&x.category==='SCI论文').length;const patent=data.filter(x=>x.type==='research'&&x.category==='专利').length;const contest=data.filter(x=>x.type==='research'&&x.category==='竞赛').length;document.getElementById('sciCount').textContent=sci;document.getElementById('patentCount').textContent=patent;document.getElementById('contestCount').textContent=contest;document.getElementById('metricSci').textContent=sci+patent+contest;
+ const month=todayISO().slice(0,7),weekAgo=new Date(Date.now()-7*86400000);document.getElementById('metricGame').textContent=data.filter(x=>x.type==='gaming'&&new Date(x.date)>=weekAgo).length;document.getElementById('metricSport').textContent=data.filter(x=>x.type==='sport'&&x.date.startsWith(month)).length;document.getElementById('metricLife').textContent=data.filter(x=>x.type==='life').length;
+ const todays=data.filter(x=>x.date===todayISO());document.getElementById('todayCount').textContent=todays.length+' 条记录';const tl=document.getElementById('todayTimeline');tl.innerHTML=todays.length?todays.slice(0,8).map(x=>`<div class="trow"><div class="ticon">${icons[x.type]}</div><div class="tmain"><b>${esc(x.title)}</b><small>${esc(x.category)}${x.value?' · '+esc(x.value):''}${x.duration?' · '+formatDuration(x.duration):''}${x.note?' · '+esc(x.note):''}</small></div></div>`).join(''):'<div class="empty">今天还没有记录，先留下第一条吧。</div>';
+ const R=totalMinutes(todays,'research'),G=totalMinutes(todays,'gaming'),L=totalMinutes(todays,'life'),S=totalMinutes(todays,'sport'),T=R+G+L+S;
+ const vals={progressResearch:R,progressGaming:G,progressLife:L,progressSport:S};Object.entries(vals).forEach(([id,v])=>document.getElementById(id).style.width=(T?100*v/T:0).toFixed(1)+'%');
+ let score=50;if(T>0){const balance=(1.00*G+0.45*L+0.15*S-0.75*R)/T;score=Math.round(Math.max(0,Math.min(100,50+50*balance)));}
+ document.getElementById('fishIndex').textContent=score+' / 100';document.getElementById('fishComment').textContent=T===0?'录入活动时长后自动计算':score>=80?'高浓度摸鱼日 🐟':score>=60?'摸鱼偏多，生活感不错 🐟':score>=40?'工作与摸鱼较平衡':'科研浓度较高，摸鱼偏少';
+ const pairs=[['科研',R],['摸鱼',G],['生活',L],['运动',S]].sort((a,b)=>b[1]-a[1]);document.getElementById('dailyMission').textContent=T?pairs[0][0]+'为主':'尚未记录';
+}
+
 const animeNotes=[
  '欢迎回来，XCL。今天也要把科研、生活、游戏和运动都记录下来喔。',
  '二次元主页已启动：先完成主线任务，再开启摸鱼支线。',
@@ -658,6 +679,7 @@ async function loadWeather(){
 
 document.getElementById('modal').addEventListener('click',e=>{if(e.target.id==='modal')closeModal()});
 render();
+setTimeout(()=>{ if(navigator.geolocation) loadWeather(); }, 500);
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('/moyuXCL/service-worker.js', { scope: '/moyuXCL/' })
