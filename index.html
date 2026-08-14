@@ -558,14 +558,14 @@ input::placeholder,textarea::placeholder{color:#91a5b8}select option{background:
 }
 .record-form-card input[type='date']{color-scheme:light;padding-right:14px}
 .record-field-note{margin-top:5px;font-size:10px;color:#8195a9}
-.record-actions{display:grid;grid-template-columns:1fr 1.35fr;gap:11px;margin-top:4px}
-.record-actions .btn{
+.record-form-actions{display:grid;grid-template-columns:1fr 1.35fr;gap:11px;margin-top:4px}
+.record-form-actions .btn{
   min-height:50px;border-radius:18px;font-size:15px;font-weight:850;
 }
-.record-actions .btn.cancel-record{
+.record-form-actions .btn.cancel-record{
   background:rgba(255,255,255,.84);color:#2f6fb7;border:1px solid #d3e6f7;
 }
-.record-actions .btn.save-record{
+.record-form-actions .btn.save-record{
   background:linear-gradient(180deg,var(--accent),var(--accent-strong));
   color:white;border:0;box-shadow:0 11px 22px color-mix(in srgb,var(--accent) 28%, transparent);
 }
@@ -584,7 +584,128 @@ input::placeholder,textarea::placeholder{color:#91a5b8}select option{background:
  .record-form-card input,.record-form-card textarea,.record-form-card select{font-size:14px;padding:13px 13px;border-radius:15px}
  .record-form-card textarea{min-height:112px;padding-right:68px}
  .record-note-mascot{width:52px;height:52px}
- .record-actions .btn{min-height:47px;font-size:14px}
+ .record-form-actions .btn{min-height:47px;font-size:14px}
+}
+
+
+/* ===== v3.0.4 · 内页标题卡通动效统一 ===== */
+.page-title-with-sticker{
+  display:flex;align-items:center;gap:10px;line-height:1.05;
+}
+.section-sticker{
+  width:56px;height:50px;display:inline-flex;align-items:center;justify-content:center;
+  flex:0 0 auto;filter:drop-shadow(0 7px 10px rgba(56,111,151,.16));
+  transform-origin:center bottom;
+}
+.section-sticker img{width:58px;height:54px;object-fit:contain;display:block}
+.section-sticker-research{animation:sectionFloat 3.2s ease-in-out infinite}
+.section-sticker-gaming{animation:sectionWiggle 2.7s ease-in-out infinite}
+.section-sticker-life{animation:sectionFloat 3s ease-in-out .25s infinite}
+.section-sticker-sport{animation:sectionSport 2.9s ease-in-out .2s infinite}
+@keyframes sectionFloat{
+  0%,100%{transform:translateY(0) rotate(-1deg)}
+  50%{transform:translateY(-5px) rotate(1.5deg)}
+}
+@keyframes sectionWiggle{
+  0%,100%{transform:translateY(0) rotate(-2deg)}
+  28%{transform:translateY(-3px) rotate(2.5deg)}
+  55%{transform:translateY(-5px) rotate(-1deg)}
+  78%{transform:translateY(-2px) rotate(2deg)}
+}
+@keyframes sectionSport{
+  0%,100%{transform:translateY(0) rotate(0deg) scale(1)}
+  35%{transform:translateY(-4px) rotate(-2deg) scale(1.03)}
+  70%{transform:translateY(-2px) rotate(2deg) scale(1.01)}
+}
+@media(max-width:600px){
+  .page-title-with-sticker{gap:7px}
+  .section-sticker{width:48px;height:43px}
+  .section-sticker img{width:50px;height:47px}
+}
+
+
+/* v3.0.5：记录卡片“修改 / 删除”严格等宽等高 */
+.record-top .record-actions{
+  display:flex;
+  grid-template-columns:none;
+  gap:8px;
+  align-items:center;
+  justify-content:flex-end;
+  flex:0 0 auto;
+  margin-top:0;
+}
+.record-top .edit-action,
+.record-top .delete-action{
+  box-sizing:border-box;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:64px;
+  min-width:64px;
+  height:36px;
+  min-height:36px;
+  padding:0 10px;
+  margin:0;
+  border-radius:18px;
+  font-size:12px;
+  line-height:1;
+  font-weight:700;
+  white-space:nowrap;
+}
+@media(max-width:600px){
+  .record-top .record-actions{gap:7px}
+  .record-top .edit-action,
+  .record-top .delete-action{
+    width:58px;
+    min-width:58px;
+    height:34px;
+    min-height:34px;
+    padding:0 8px;
+    border-radius:17px;
+    font-size:11px;
+  }
+}
+
+
+/* v3.0.5：今日时间线图标与四个分区统一 */
+.ticon{
+  width:48px;
+  min-width:48px;
+  height:48px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:0;
+  border-radius:15px;
+  background:rgba(255,255,255,.68);
+  border:1px solid rgba(91,155,204,.14);
+  box-shadow:0 7px 16px rgba(67,119,155,.09);
+  overflow:visible;
+}
+.ticon img{
+  width:46px;
+  height:42px;
+  object-fit:contain;
+  display:block;
+  filter:drop-shadow(0 5px 6px rgba(62,105,139,.12));
+  transform-origin:center bottom;
+}
+.ticon.timeline-research img{animation:timelineFloat 3.4s ease-in-out infinite}
+.ticon.timeline-gaming img{animation:timelineWiggle 2.8s ease-in-out infinite}
+.ticon.timeline-life img{animation:timelineFloat 3.1s ease-in-out .25s infinite}
+.ticon.timeline-sport img{animation:timelineWiggle 3.2s ease-in-out .2s infinite}
+@keyframes timelineFloat{
+  0%,100%{transform:translateY(0) rotate(-1deg)}
+  50%{transform:translateY(-4px) rotate(1.5deg)}
+}
+@keyframes timelineWiggle{
+  0%,100%{transform:translateY(0) rotate(-2deg)}
+  30%{transform:translateY(-2px) rotate(2deg)}
+  60%{transform:translateY(-4px) rotate(-1deg)}
+}
+@media(max-width:600px){
+  .ticon{width:44px;min-width:44px;height:44px;border-radius:14px}
+  .ticon img{width:42px;height:39px}
 }
 
 </style>
@@ -598,8 +719,8 @@ input::placeholder,textarea::placeholder{color:#91a5b8}select option{background:
 <body>
 <div class="app">
   <div class="topbar">
-    <div class="brand"><div class="logo"><img src="./icon-192.png" alt=""></div><div>爱摸鱼的XCL</div></div>
-    <div class="pill">晴天云朵 · 清晨校园版 · v3.0</div>
+    <div class="brand"><div>爱摸鱼的XCL</div></div>
+    <div class="pill">晴天云朵 · 清晨校园版 · v3.0.4</div>
   </div>
 
   <section id="home" class="page active">
@@ -660,7 +781,7 @@ input::placeholder,textarea::placeholder{color:#91a5b8}select option{background:
   </section>
 
   <section id="research" class="page">
-    <div class="page-head"><div><h1>🔬 科研工作区</h1><p>论文、专利、竞赛与科研日志。</p></div><button class="btn" onclick="openModal('research')">+ 新增</button></div>
+    <div class="page-head"><div><h1 class="page-title-with-sticker"><span class="section-sticker section-sticker-research"><img src="./assets/research.svg" alt="科研"></span><span>科研工作区</span></h1><p>论文、专利、竞赛与科研日志。</p></div><button class="btn" onclick="openModal('research')">+ 新增</button></div>
     <div class="achievements">
       <div class="card ach"><strong id="sciCount">0</strong><span>SCI / 论文记录</span></div>
       <div class="card ach"><strong id="patentCount">0</strong><span>专利记录</span></div>
@@ -670,17 +791,17 @@ input::placeholder,textarea::placeholder{color:#91a5b8}select option{background:
   </section>
 
   <section id="gaming" class="page">
-    <div class="page-head"><div><h1>🎮 摸鱼区</h1><p>今天上分了吗？输了也算生活记录。</p></div><button class="btn" onclick="openModal('gaming')">+ 打卡</button></div>
+    <div class="page-head"><div><h1 class="page-title-with-sticker"><span class="section-sticker section-sticker-gaming"><img src="./assets/gaming.svg" alt="摸鱼"></span><span>摸鱼区</span></h1><p>今天上分了吗？输了也算生活记录。</p></div><button class="btn" onclick="openModal('gaming')">+ 打卡</button></div>
     <div class="records" id="gamingRecords"></div>
   </section>
 
   <section id="life" class="page">
-    <div class="page-head"><div><h1>🍜 生活区</h1><p>干饭、电影、3D 打印、日常碎片。</p></div><button class="btn" onclick="openModal('life')">+ 记录</button></div>
+    <div class="page-head"><div><h1 class="page-title-with-sticker"><span class="section-sticker section-sticker-life"><img src="./assets/life.svg" alt="生活"></span><span>生活区</span></h1><p>干饭、电影、3D 打印、日常碎片。</p></div><button class="btn" onclick="openModal('life')">+ 记录</button></div>
     <div class="records" id="lifeRecords"></div>
   </section>
 
   <section id="sport" class="page">
-    <div class="page-head"><div><h1>🏸 运动区</h1><p>乒乓球 / 羽毛球 / 足球 / 排球等运动记录。</p></div><button class="btn" onclick="openModal('sport')">+ 运动</button></div>
+    <div class="page-head"><div><h1 class="page-title-with-sticker"><span class="section-sticker section-sticker-sport"><img src="./assets/sport.svg" alt="运动"></span><span>运动区</span></h1><p>乒乓球 / 羽毛球 / 足球 / 排球等运动记录。</p></div><button class="btn" onclick="openModal('sport')">+ 运动</button></div>
     <div class="records" id="sportRecords"></div>
   </section>
 
@@ -763,7 +884,7 @@ input::placeholder,textarea::placeholder{color:#91a5b8}select option{background:
         <div class="record-field-note">活动时长用于首页分区进度和摸鱼指数计算</div>
       </div>
 
-      <div class="record-actions">
+      <div class="record-form-actions">
         <button class="btn cancel-record" type="button" onclick="closeModal()">取消</button>
         <button class="btn save-record" type="button" id="saveBtn" onclick="saveRecord()">保存记录</button>
       </div>
@@ -773,7 +894,7 @@ input::placeholder,textarea::placeholder{color:#91a5b8}select option{background:
 
 <script>
 const STORE='xcl-workbench-v1';
-const APP_VERSION='3.0.3';
+const APP_VERSION='3.0.5';
 let currentType='home';
 let editingRecordId=null;
 let data=JSON.parse(localStorage.getItem(STORE)||'[]');
@@ -793,6 +914,13 @@ const modalCopy={
  home:{title:'新增今日记录',hint:'选择所属分区后，记录今天最值得留下的一件事。',titlePH:'标题，例如：完成实验 / 王者+3星 / 看电影',notePH:'今天发生了什么？',valuePH:'结果，例如：完成 / +3星 / 9.0分'}
 };
 const icons={research:'🔬',gaming:'🎮',life:'🍜',sport:'🏸',home:'📌'};
+const assetIcons={
+ research:'./assets/research.svg',
+ gaming:'./assets/gaming.svg',
+ life:'./assets/life.svg',
+ sport:'./assets/sport.svg',
+ home:'./assets/fish.svg'
+};
 const modalVisual={
  research:{theme:'theme-research',label:'科研类别',title:'科研记录',sub:'把今天值得留下的研究进展记下来。',asset:'./assets/research.svg'},
  gaming:{theme:'theme-gaming',label:'游戏类别',title:'摸鱼记录',sub:'上分、掉分、整活，都算今天的快乐记录。',asset:'./assets/gaming.svg'},
@@ -980,7 +1108,7 @@ function render(){
  renderList('research','researchRecords');renderList('gaming','gamingRecords');renderList('life','lifeRecords');renderList('sport','sportRecords');renderArchive();
  const sci=data.filter(x=>x.type==='research'&&x.category==='SCI论文').length;const patent=data.filter(x=>x.type==='research'&&x.category==='专利').length;const contest=data.filter(x=>x.type==='research'&&x.category==='竞赛').length;document.getElementById('sciCount').textContent=sci;document.getElementById('patentCount').textContent=patent;document.getElementById('contestCount').textContent=contest;document.getElementById('metricSci').textContent=sci+patent+contest;
  const month=todayISO().slice(0,7),weekAgo=new Date(Date.now()-7*86400000);document.getElementById('metricGame').textContent=data.filter(x=>x.type==='gaming'&&new Date(x.date)>=weekAgo).length;document.getElementById('metricSport').textContent=data.filter(x=>x.type==='sport'&&x.date.startsWith(month)).length;document.getElementById('metricLife').textContent=data.filter(x=>x.type==='life').length;
- const todays=data.filter(x=>x.date===todayISO());document.getElementById('todayCount').textContent=todays.length+' 条记录';const tl=document.getElementById('todayTimeline');tl.innerHTML=todays.length?todays.slice(0,8).map(x=>`<div class="trow"><div class="ticon">${icons[x.type]}</div><div class="tmain"><b>${esc(x.title)}</b><small>${esc(x.category)}${x.value?' · '+esc(x.value):''}${x.duration?' · '+formatDuration(x.duration):''}${x.note?' · '+esc(x.note):''}</small></div></div>`).join(''):'<div class="empty">今天还没有记录，先留下第一条吧。</div>';
+ const todays=data.filter(x=>x.date===todayISO());document.getElementById('todayCount').textContent=todays.length+' 条记录';const tl=document.getElementById('todayTimeline');tl.innerHTML=todays.length?todays.slice(0,8).map(x=>`<div class="trow"><div class="ticon timeline-${x.type}"><img src="${assetIcons[x.type]||assetIcons.home}" alt=""></div><div class="tmain"><b>${esc(x.title)}</b><small>${esc(x.category)}${x.value?' · '+esc(x.value):''}${x.duration?' · '+formatDuration(x.duration):''}${x.note?' · '+esc(x.note):''}</small></div></div>`).join(''):'<div class="empty">今天还没有记录，先留下第一条吧。</div>';
  const R=totalMinutes(todays,'research'),G=totalMinutes(todays,'gaming'),L=totalMinutes(todays,'life'),S=totalMinutes(todays,'sport'),T=R+G+L+S;
  const vals={progressResearch:R,progressGaming:G,progressLife:L,progressSport:S};Object.entries(vals).forEach(([id,v])=>document.getElementById(id).style.width=(T?100*v/T:0).toFixed(1)+'%');
  let score=50;if(T>0){const balance=(1.00*G+0.45*L+0.15*S-0.75*R)/T;score=Math.round(Math.max(0,Math.min(100,50+50*balance)));}

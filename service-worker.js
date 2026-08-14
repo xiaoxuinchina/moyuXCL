@@ -1,4 +1,4 @@
-const CACHE = 'xcl-workbench-mobile-v3.0.3';
+const CACHE = 'xcl-workbench-mobile-v3.0.5';
 const BASE = '/moyuXCL/';
 const APP_SHELL = [
   BASE,
