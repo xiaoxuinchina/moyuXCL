@@ -334,6 +334,13 @@ textarea{min-height:84px;resize:vertical}
 }
 @media (min-width:601px) and (max-width:900px){.app{max-width:760px}}
 
+
+.hero-mini strong{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hero-avatar-label{justify-content:center}
+.active-filter{background:rgba(125,211,252,.18);border-color:rgba(125,211,252,.38)}
+.archive-date{font-size:11px;color:var(--muted);margin:14px 2px 7px}
+@media(max-width:600px){.hero-mini{min-width:0}.hero-mini strong{font-size:10px;white-space:nowrap}.hero-avatar-label{justify-content:center}}
+
 </style>
 <link rel="apple-touch-icon" href="/moyuXCL/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="64x64" href="/moyuXCL/favicon-64.png">
@@ -346,7 +353,7 @@ textarea{min-height:84px;resize:vertical}
 <div class="app">
   <div class="topbar">
     <div class="brand"><div class="logo">🐟</div><div>爱摸鱼的XCL</div></div>
-    <div class="pill">你的个人数字生活工作台 · v2.1.1 移动优化版</div>
+    <div class="pill">你的个人数字生活工作台 · v2.2 时间统计版</div>
   </div>
 
   <section id="home" class="page active">
@@ -361,20 +368,20 @@ textarea{min-height:84px;resize:vertical}
             <div class="hero-chip" id="modeBadge">今日状态 · 摸鱼待机中</div>
           </div>
           <h1 id="greeting">Good morning, XCL.</h1>
-          <p>认真科研，快乐生活，合理摸鱼。欢迎来到你的二次元工作台主页。</p>
+          <p>认真科研，快乐生活，合理摸鱼。</p>
           <div class="hero-note">
             <div class="note-avatar">🌙</div>
             <div class="note-bubble" id="otakuNote">欢迎回来，XCL。今天也要把科研、生活、游戏和运动都记录下来喔。</div>
           </div>
           <div class="hero-mini-panels">
-            <div class="hero-mini">今日主线<strong id="dailyMission">科研推进 + 快乐生活</strong></div>
+            <div class="hero-mini">今日主线<strong id="dailyMission">尚未记录</strong></div>
             <div class="hero-mini">心情能量<strong id="moodText">元气在线 ✨</strong></div>
           </div>
         </div>
         <div class="hero-avatar-wrap">
           <div class="hero-avatar-card">
             <img class="hero-avatar" src="./xcl_avatar.jpg" alt="XCL 头像">
-            <div class="hero-avatar-label"><b>XCL</b><span class="avatar-badge">专属头像卡</span></div>
+            <div class="hero-avatar-label"><b>XCL</b></div>
           </div>
         </div>
       </div>
@@ -388,13 +395,13 @@ textarea{min-height:84px;resize:vertical}
 
     <div class="section-title"><h2>今日状态</h2><span class="pill" id="todayCount">0 条记录</span></div>
     <div class="grid4">
-      <div class="card module" onclick="go('research')"><div class="icon">🔬</div><h3>科研工作区</h3><p id="homeResearch">记录 SCI、专利、竞赛和研究进展</p><div class="progress"><i style="width:78%"></i></div></div>
-      <div class="card module" onclick="go('gaming')"><div class="icon">🎮</div><h3>摸鱼区</h3><p id="homeGaming">王者 / LOL / 云顶之弈上分记录</p><div class="progress"><i style="width:56%"></i></div></div>
-      <div class="card module" onclick="go('life')"><div class="icon">🍜</div><h3>生活区</h3><p id="homeLife">干饭、电影、3D 打印和日常</p><div class="progress"><i style="width:66%"></i></div></div>
-      <div class="card module" onclick="go('sport')"><div class="icon">🏸</div><h3>运动区</h3><p id="homeSport">乒乓球、羽毛球、足球、排球</p><div class="progress"><i style="width:72%"></i></div></div>
+      <div class="card module" onclick="go('research')"><div class="icon">🔬</div><h3>科研工作区</h3><p id="homeResearch">记录 SCI、专利、竞赛和研究进展</p><div class="progress"><i id="progressResearch" style="width:0%"></i></div></div>
+      <div class="card module" onclick="go('gaming')"><div class="icon">🎮</div><h3>摸鱼区</h3><p id="homeGaming">王者 / LOL / 云顶之弈上分记录</p><div class="progress"><i id="progressGaming" style="width:0%"></i></div></div>
+      <div class="card module" onclick="go('life')"><div class="icon">🍜</div><h3>生活区</h3><p id="homeLife">干饭、电影、3D 打印和日常</p><div class="progress"><i id="progressLife" style="width:0%"></i></div></div>
+      <div class="card module" onclick="go('sport')"><div class="icon">🏸</div><h3>运动区</h3><p id="homeSport">乒乓球、羽毛球、足球、排球</p><div class="progress"><i id="progressSport" style="width:0%"></i></div></div>
     </div>
 
-    <div class="section-title"><h2>今日时间线</h2><button class="btn" onclick="openModal('home')">+ 新记录</button></div>
+    <div class="section-title"><h2>今日时间线</h2><div style="display:flex;gap:7px"><button class="btn" onclick="go('archive')">全部记录</button><button class="btn" onclick="openModal('home')">+ 新记录</button></div></div>
     <div class="two">
       <div class="card"><div class="timeline" id="todayTimeline"></div></div>
       <div class="card">
@@ -430,6 +437,19 @@ textarea{min-height:84px;resize:vertical}
     <div class="page-head"><div><h1>🏸 运动区</h1><p>乒乓球 / 羽毛球 / 足球 / 排球等运动记录。</p></div><button class="btn" onclick="openModal('sport')">+ 运动</button></div>
     <div class="records" id="sportRecords"></div>
   </section>
+
+  <section id="archive" class="page">
+    <div class="page-head"><div><h1>🗂️ 全部活动记录</h1><p>按时间保存科研、摸鱼、生活和运动历史。</p></div><button class="btn" onclick="go('home')">返回首页</button></div>
+    <div class="card" style="margin-bottom:10px"><div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn archive-filter active-filter" onclick="setArchiveFilter('all',this)">全部</button>
+      <button class="btn archive-filter" onclick="setArchiveFilter('research',this)">科研</button>
+      <button class="btn archive-filter" onclick="setArchiveFilter('gaming',this)">摸鱼</button>
+      <button class="btn archive-filter" onclick="setArchiveFilter('life',this)">生活</button>
+      <button class="btn archive-filter" onclick="setArchiveFilter('sport',this)">运动</button>
+    </div></div>
+    <div class="records" id="archiveRecords"></div>
+  </section>
+
 </div>
 
 <nav class="bottom-nav">
@@ -450,7 +470,11 @@ textarea{min-height:84px;resize:vertical}
     <textarea id="note" placeholder="今天发生了什么？"></textarea>
     <div class="row">
       <input id="value" placeholder="数值/结果，例如：+3星、8.5分">
+      <input id="duration" type="number" inputmode="numeric" min="0" step="5" placeholder="活动时长（分钟）">
+    </div>
+    <div class="row">
       <input id="date" type="date">
+      <div style="display:flex;align-items:center;color:var(--muted);font-size:11px;padding:0 4px">时长用于进度与摸鱼指数</div>
     </div>
     <div class="actions">
       <button class="btn" onclick="closeModal()">取消</button>
@@ -480,7 +504,7 @@ const modalCopy={
 };
 const icons={research:'🔬',gaming:'🎮',life:'🍜',sport:'🏸',home:'📌'};
 
-function todayISO(){return new Date().toISOString().slice(0,10)}
+function todayISO(){return new Date().toISOString().slice(0,10)}\nfunction formatDuration(mins){mins=Number(mins)||0;if(mins<=0)return '';const h=Math.floor(mins/60),m=mins%60;return h?(m?`${h}h ${m}min`:`${h}h`):`${m}min`;}\nfunction totalMinutes(items,type){return items.filter(x=>x.type===type).reduce((s,x)=>s+(Number(x.duration)||0),0);}\nlet archiveFilter='all';\nfunction setArchiveFilter(filter,btn){archiveFilter=filter;document.querySelectorAll('.archive-filter').forEach(x=>x.classList.remove('active-filter'));if(btn)btn.classList.add('active-filter');renderArchive();}\nfunction renderArchive(){const root=document.getElementById('archiveRecords');if(!root)return;const items=[...data].filter(x=>archiveFilter==='all'||x.type===archiveFilter).sort((a,b)=>(b.date||'').localeCompare(a.date||'')||(b.id-a.id));if(!items.length){root.innerHTML='<div class="card empty">还没有历史活动记录。</div>';return;}let last='';root.innerHTML=items.map(x=>{const head=x.date!==last?`<div class="archive-date">${last=x.date}</div>`:'';return head+`<div class="card record"><div class="record-top"><div><h3>${icons[x.type]} ${esc(x.title)}</h3><p>${esc(x.note||'没有备注')}</p></div><div class="danger" onclick="del(${x.id})">删除</div></div><span class="tag">${esc(x.category)}${x.value?' · '+esc(x.value):''}${x.duration?' · '+formatDuration(x.duration):''}</span></div>`;}).join('');}\n
 function esc(s=''){return s.replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
 
 function go(id){
@@ -508,6 +532,7 @@ function openModal(type){
  document.getElementById('title').value='';
  document.getElementById('note').value='';
  document.getElementById('value').value='';
+ document.getElementById('duration').value='';
 }
 function closeModal(){document.getElementById('modal').classList.remove('show')}
 document.addEventListener('DOMContentLoaded',()=>{
@@ -552,6 +577,7 @@ function saveRecord(){
    id:Date.now(), type, category,
    title, note:document.getElementById('note').value.trim(),
    value:document.getElementById('value').value.trim(),
+   duration:Math.max(0, Number(document.getElementById('duration').value)||0),
    date:document.getElementById('date').value||todayISO(),
    created:new Date().toISOString()
  });
@@ -576,55 +602,17 @@ function renderList(type,el){
        <div><h3>${esc(x.title)}</h3><p>${esc(x.note||'没有备注')}</p></div>
        <div class="danger" onclick="del(${x.id})">删除</div>
      </div>
-     <span class="tag">${esc(x.category)} · ${esc(x.date)}${x.value?' · '+esc(x.value):''}</span>
+     <span class="tag">${esc(x.category)} · ${esc(x.date)}${x.value?' · '+esc(x.value):''}${x.duration?' · '+formatDuration(x.duration):''}</span>
    </div>`).join('');
 }
-function render(){
- renderList('research','researchRecords');
- renderList('gaming','gamingRecords');
- renderList('life','lifeRecords');
- renderList('sport','sportRecords');
-
- const sci=data.filter(x=>x.type==='research'&&x.category==='SCI论文').length;
- const patent=data.filter(x=>x.type==='research'&&x.category==='专利').length;
- const contest=data.filter(x=>x.type==='research'&&x.category==='竞赛').length;
- document.getElementById('sciCount').textContent=sci;
- document.getElementById('patentCount').textContent=patent;
- document.getElementById('contestCount').textContent=contest;
- document.getElementById('metricSci').textContent=sci+patent+contest;
-
- const month=todayISO().slice(0,7);
- const weekAgo=new Date(Date.now()-7*86400000);
- document.getElementById('metricGame').textContent=data.filter(x=>x.type==='gaming'&&new Date(x.date)>=weekAgo).length;
- document.getElementById('metricSport').textContent=data.filter(x=>x.type==='sport'&&x.date.startsWith(month)).length;
- document.getElementById('metricLife').textContent=data.filter(x=>x.type==='life').length;
-
- const todays=data.filter(x=>x.date===todayISO());
- document.getElementById('todayCount').textContent=todays.length+' 条记录';
- const tl=document.getElementById('todayTimeline');
- tl.innerHTML=todays.length?todays.slice(0,8).map(x=>`
-   <div class="trow"><div class="ticon">${icons[x.type]}</div><div class="tmain">
-   <b>${esc(x.title)}</b><small>${esc(x.category)}${x.value?' · '+esc(x.value):''}${x.note?' · '+esc(x.note):''}</small>
-   </div></div>`).join(''):'<div class="empty">今天还没有记录，先留下第一条吧。</div>';
-
- const todayGames=todays.filter(x=>x.type==='gaming').length;
- const todayResearch=todays.filter(x=>x.type==='research').length;
- const todaySport=todays.filter(x=>x.type==='sport').length;
- let score=Math.max(0,Math.min(100,52+todayGames*14-todayResearch*5-todaySport*3));
- document.getElementById('fishIndex').textContent=score+' / 100';
- document.getElementById('fishComment').textContent=
-   score>=80?'今天很会摸，注意科研余额 🐟':
-   score>=60?'适度摸鱼，状态良好 🐟':
-   score>=40?'科研浓度偏高，建议补鱼 🐟':'今日过于努力，强烈建议摸鱼 🐟';
-}
-
+function render(){\n renderList('research','researchRecords');renderList('gaming','gamingRecords');renderList('life','lifeRecords');renderList('sport','sportRecords');renderArchive();\n const sci=data.filter(x=>x.type==='research'&&x.category==='SCI论文').length;const patent=data.filter(x=>x.type==='research'&&x.category==='专利').length;const contest=data.filter(x=>x.type==='research'&&x.category==='竞赛').length;document.getElementById('sciCount').textContent=sci;document.getElementById('patentCount').textContent=patent;document.getElementById('contestCount').textContent=contest;document.getElementById('metricSci').textContent=sci+patent+contest;\n const month=todayISO().slice(0,7),weekAgo=new Date(Date.now()-7*86400000);document.getElementById('metricGame').textContent=data.filter(x=>x.type==='gaming'&&new Date(x.date)>=weekAgo).length;document.getElementById('metricSport').textContent=data.filter(x=>x.type==='sport'&&x.date.startsWith(month)).length;document.getElementById('metricLife').textContent=data.filter(x=>x.type==='life').length;\n const todays=data.filter(x=>x.date===todayISO());document.getElementById('todayCount').textContent=todays.length+' 条记录';const tl=document.getElementById('todayTimeline');tl.innerHTML=todays.length?todays.slice(0,8).map(x=>`<div class="trow"><div class="ticon">${icons[x.type]}</div><div class="tmain"><b>${esc(x.title)}</b><small>${esc(x.category)}${x.value?' · '+esc(x.value):''}${x.duration?' · '+formatDuration(x.duration):''}${x.note?' · '+esc(x.note):''}</small></div></div>`).join(''):'<div class="empty">今天还没有记录，先留下第一条吧。</div>';\n const R=totalMinutes(todays,'research'),G=totalMinutes(todays,'gaming'),L=totalMinutes(todays,'life'),S=totalMinutes(todays,'sport'),T=R+G+L+S;\n const vals={progressResearch:R,progressGaming:G,progressLife:L,progressSport:S};Object.entries(vals).forEach(([id,v])=>document.getElementById(id).style.width=(T?100*v/T:0).toFixed(1)+'%');\n let score=50;if(T>0){const balance=(1.00*G+0.45*L+0.15*S-0.75*R)/T;score=Math.round(Math.max(0,Math.min(100,50+50*balance)));}\n document.getElementById('fishIndex').textContent=score+' / 100';document.getElementById('fishComment').textContent=T===0?'录入活动时长后自动计算':score>=80?'高浓度摸鱼日 🐟':score>=60?'摸鱼偏多，生活感不错 🐟':score>=40?'工作与摸鱼较平衡':'科研浓度较高，摸鱼偏少';\n const pairs=[['科研',R],['摸鱼',G],['生活',L],['运动',S]].sort((a,b)=>b[1]-a[1]);document.getElementById('dailyMission').textContent=T?pairs[0][0]+'为主':'尚未记录';\n}\n
 const animeNotes=[
  '欢迎回来，XCL。今天也要把科研、生活、游戏和运动都记录下来喔。',
  '二次元主页已启动：先完成主线任务，再开启摸鱼支线。',
  '今天也请保持可爱与高效并存，记得顺手更新你的成果墙。',
  '如果科研有点累，就来首页看看天气、时间，再轻轻摸一下鱼。'
 ];
-const missions=['科研推进 + 快乐生活','生活打卡 + 游戏上分','运动充电 + 晚间复盘','主线科研 + 支线摸鱼'];
+const missions=['科研推进','生活记录','运动充电','适度摸鱼'];
 const moods=['元气在线 ✨','平稳输出 🌤️','科研专注中 📚','今天也要快乐摸鱼 🐟'];
 let animeIdx=0;
 function tick(){
@@ -643,7 +631,7 @@ function rotateAnimeHero(){
  const mission=document.getElementById('dailyMission');
  const mood=document.getElementById('moodText');
  if(note) note.textContent=animeNotes[animeIdx];
- if(mission) mission.textContent=missions[animeIdx % missions.length];
+
  if(mood) mood.textContent=moods[animeIdx % moods.length];
 }
 setInterval(tick,1000);tick();
@@ -661,7 +649,9 @@ async function loadWeather(){
      const c=j.current?.weather_code??0, t=Math.round(j.current?.temperature_2m);
      const wx=c===0?'☀️':c<=3?'⛅':c<=48?'🌫️':c<=67?'🌧️':c<=77?'🌨️':c<=82?'🌦️':'⛈️';
      document.getElementById('weatherMain').textContent=`${wx} ${t}°C`;
-     sub.textContent='当前位置 · Open-Meteo';
+     let place='当前位置';
+     try{const geo=await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=zh`);const gj=await geo.json();place=gj.city||gj.locality||gj.principalSubdivision||gj.countryName||'当前位置';}catch(_){}
+     sub.textContent=`${place} · Open-Meteo`;
    }catch(e){sub.textContent='天气获取失败，点击重试'}
  },()=>sub.textContent='未获得定位权限，点击重试',{timeout:8000});
 }
