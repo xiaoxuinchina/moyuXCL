@@ -1,4 +1,4 @@
-const CACHE = 'xcl-workbench-mobile-v2.2.1';
+const CACHE = 'xcl-workbench-mobile-v2.2.2';
 const BASE = '/moyuXCL/';
 const APP_SHELL = [
   BASE,
@@ -43,15 +43,15 @@ self.addEventListener('fetch', event => {
   // Network-first for HTML/navigation so GitHub updates appear quickly.
   if (req.mode === 'navigate') {
     event.respondWith(
-      fetch(req)
+      fetch(req, { cache: 'no-store' })
         .then(res => {
-          const copy = res.clone();
-          caches.open(CACHE).then(cache => cache.put(req, copy));
+          if (res && res.ok) {
+            const copy = res.clone();
+            caches.open(CACHE).then(cache => cache.put(BASE + 'index.html', copy));
+          }
           return res;
         })
-        .catch(() =>
-          caches.match(req).then(r => r || caches.match(BASE + 'index.html'))
-        )
+        .catch(() => caches.match(BASE + 'index.html'))
     );
     return;
   }

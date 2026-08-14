@@ -341,6 +341,18 @@ textarea{min-height:84px;resize:vertical}
 .archive-date{font-size:11px;color:var(--muted);margin:14px 2px 7px}
 @media(max-width:600px){.hero-mini{min-width:0}.hero-mini strong{font-size:10px;white-space:nowrap}.hero-avatar-label{justify-content:center}}
 
+
+.record-actions{display:flex;gap:8px;align-items:center;flex:0 0 auto}
+.edit-action,.delete-action{
+  cursor:pointer;font-size:11px;padding:6px 9px;border-radius:10px;
+  border:1px solid rgba(255,255,255,.10);background:rgba(255,255,255,.05)
+}
+.edit-action{color:#bae6fd}
+.delete-action{color:#fecaca}
+@media(max-width:600px){
+  .record-actions{gap:6px}
+  .edit-action,.delete-action{font-size:10px;padding:5px 8px}
+}
 </style>
 <link rel="apple-touch-icon" href="/moyuXCL/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="64x64" href="/moyuXCL/favicon-64.png">
@@ -353,7 +365,7 @@ textarea{min-height:84px;resize:vertical}
 <div class="app">
   <div class="topbar">
     <div class="brand"><div class="logo">🐟</div><div>爱摸鱼的XCL</div></div>
-    <div class="pill">你的个人数字生活工作台 · v2.2.1 稳定修正版</div>
+    <div class="pill">你的个人数字生活工作台 · v2.2.2 稳定修正版</div>
   </div>
 
   <section id="home" class="page active">
@@ -478,14 +490,16 @@ textarea{min-height:84px;resize:vertical}
     </div>
     <div class="actions">
       <button class="btn" onclick="closeModal()">取消</button>
-      <button class="btn" onclick="saveRecord()">保存记录</button>
+      <button class="btn" id="saveBtn" onclick="saveRecord()">保存记录</button>
     </div>
   </div>
 </div>
 
 <script>
 const STORE='xcl-workbench-v1';
+const APP_VERSION='2.2.2';
 let currentType='home';
+let editingRecordId=null;
 let data=JSON.parse(localStorage.getItem(STORE)||'[]');
 
 const configs={
@@ -513,7 +527,7 @@ function formatDuration(mins){mins=Number(mins)||0;if(mins<=0)return '';const h=
 function totalMinutes(items,type){return items.filter(x=>x.type===type).reduce((s,x)=>s+(Number(x.duration)||0),0);}
 let archiveFilter='all';
 function setArchiveFilter(filter,btn){archiveFilter=filter;document.querySelectorAll('.archive-filter').forEach(x=>x.classList.remove('active-filter'));if(btn)btn.classList.add('active-filter');renderArchive();}
-function renderArchive(){const root=document.getElementById('archiveRecords');if(!root)return;const items=[...data].filter(x=>archiveFilter==='all'||x.type===archiveFilter).sort((a,b)=>(b.date||'').localeCompare(a.date||'')||(b.id-a.id));if(!items.length){root.innerHTML='<div class="card empty">还没有历史活动记录。</div>';return;}let last='';root.innerHTML=items.map(x=>{const head=x.date!==last?`<div class="archive-date">${last=x.date}</div>`:'';return head+`<div class="card record"><div class="record-top"><div><h3>${icons[x.type]} ${esc(x.title)}</h3><p>${esc(x.note||'没有备注')}</p></div><div class="danger" onclick="del(${x.id})">删除</div></div><span class="tag">${esc(x.category)}${x.value?' · '+esc(x.value):''}${x.duration?' · '+formatDuration(x.duration):''}</span></div>`;}).join('');}
+function renderArchive(){const root=document.getElementById('archiveRecords');if(!root)return;const items=[...data].filter(x=>archiveFilter==='all'||x.type===archiveFilter).sort((a,b)=>(b.date||'').localeCompare(a.date||'')||(b.id-a.id));if(!items.length){root.innerHTML='<div class="card empty">还没有历史活动记录。</div>';return;}let last='';root.innerHTML=items.map(x=>{const head=x.date!==last?`<div class="archive-date">${last=x.date}</div>`:'';return head+`<div class="card record"><div class="record-top"><div><h3>${icons[x.type]} ${esc(x.title)}</h3><p>${esc(x.note||'没有备注')}</p></div><div class="record-actions"><span class="edit-action" onclick="openEdit(${x.id})">修改</span><span class="delete-action" onclick="del(${x.id})">删除</span></div></div><span class="tag">${esc(x.category)}${x.value?' · '+esc(x.value):''}${x.duration?' · '+formatDuration(x.duration):''}</span></div>`;}).join('');}
 
 function esc(s=''){return s.replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
 
@@ -533,18 +547,49 @@ function applyModalCopy(type){
  document.getElementById('value').placeholder=c.valuePH;
 }
 function openModal(type){
+ editingRecordId=null;
  currentType=type;
  document.getElementById('modal').classList.add('show');
  const cat=document.getElementById('category');
  cat.innerHTML=configs[type].map(x=>`<option>${x}</option>`).join('');
  applyModalCopy(type);
+ document.getElementById('saveBtn').textContent='保存记录';
  document.getElementById('date').value=todayISO();
  document.getElementById('title').value='';
  document.getElementById('note').value='';
  document.getElementById('value').value='';
  document.getElementById('duration').value='';
 }
-function closeModal(){document.getElementById('modal').classList.remove('show')}
+function openEdit(id){
+ const rec=data.find(x=>x.id===id);
+ if(!rec)return;
+ editingRecordId=id;
+ currentType=rec.type;
+ document.getElementById('modal').classList.add('show');
+
+ const cat=document.getElementById('category');
+ cat.innerHTML=configs[rec.type].map(x=>`<option>${x}</option>`).join('');
+ cat.value=rec.category;
+
+ applyModalCopy(rec.type);
+ document.getElementById('modalTitle').textContent='修改'+
+   ({research:'科研',gaming:'摸鱼',life:'生活',sport:'运动'}[rec.type]||'')+'记录';
+ document.getElementById('modalHint').textContent='可以补录活动时长，也可以修改标题、备注、结果、分类和日期。';
+ document.getElementById('saveBtn').textContent='保存修改';
+
+ document.getElementById('title').value=rec.title||'';
+ document.getElementById('note').value=rec.note||'';
+ document.getElementById('value').value=rec.value||'';
+ document.getElementById('duration').value=Number(rec.duration)||'';
+ document.getElementById('date').value=rec.date||todayISO();
+}
+
+function closeModal(){
+ document.getElementById('modal').classList.remove('show');
+ editingRecordId=null;
+ const btn=document.getElementById('saveBtn');
+ if(btn)btn.textContent='保存记录';
+}
 document.addEventListener('DOMContentLoaded',()=>{
  const category=document.getElementById('category');
  category.addEventListener('change',()=>{
@@ -579,19 +624,43 @@ document.addEventListener('DOMContentLoaded',()=>{
 function saveRecord(){
  const title=document.getElementById('title').value.trim();
  if(!title)return alert('先写一个标题吧 🐟');
+
  const map={科研:'research',摸鱼:'gaming',生活:'life',运动:'sport'};
  let type=currentType;
  let category=document.getElementById('category').value;
  if(type==='home') type=map[category]||'life';
- data.unshift({
-   id:Date.now(), type, category,
-   title, note:document.getElementById('note').value.trim(),
+
+ const payload={
+   type,
+   category,
+   title,
+   note:document.getElementById('note').value.trim(),
    value:document.getElementById('value').value.trim(),
-   duration:Math.max(0, Number(document.getElementById('duration').value)||0),
-   date:document.getElementById('date').value||todayISO(),
-   created:new Date().toISOString()
- });
- persist();closeModal();render();
+   duration:Math.max(0,Number(document.getElementById('duration').value)||0),
+   date:document.getElementById('date').value||todayISO()
+ };
+
+ if(editingRecordId!==null){
+   const idx=data.findIndex(x=>x.id===editingRecordId);
+   if(idx>=0){
+     data[idx]={
+       ...data[idx],
+       ...payload,
+       updated:new Date().toISOString()
+     };
+   }
+ }else{
+   data.unshift({
+     id:Date.now(),
+     ...payload,
+     created:new Date().toISOString()
+   });
+ }
+
+ editingRecordId=null;
+ persist();
+ closeModal();
+ render();
 }
 function del(id){
  if(confirm('删除这条记录？')){
@@ -610,7 +679,7 @@ function renderList(type,el){
    <div class="card record">
      <div class="record-top">
        <div><h3>${esc(x.title)}</h3><p>${esc(x.note||'没有备注')}</p></div>
-       <div class="danger" onclick="del(${x.id})">删除</div>
+       <div class="record-actions"><span class="edit-action" onclick="openEdit(${x.id})">修改</span><span class="delete-action" onclick="del(${x.id})">删除</span></div>
      </div>
      <span class="tag">${esc(x.category)} · ${esc(x.date)}${x.value?' · '+esc(x.value):''}${x.duration?' · '+formatDuration(x.duration):''}</span>
    </div>`).join('');
@@ -680,11 +749,50 @@ async function loadWeather(){
 document.getElementById('modal').addEventListener('click',e=>{if(e.target.id==='modal')closeModal()});
 render();
 setTimeout(()=>{ if(navigator.geolocation) loadWeather(); }, 500);
+
+async function checkForAppUpdate(){
+ try{
+   const r=await fetch('/moyuXCL/version.json?ts='+Date.now(),{
+     cache:'no-store',
+     headers:{'Cache-Control':'no-cache'}
+   });
+   if(!r.ok)return;
+   const info=await r.json();
+   const remote=String(info.version||'');
+   if(remote && remote!==APP_VERSION){
+     const key='xcl-last-reload-version';
+     if(sessionStorage.getItem(key)!==remote){
+       sessionStorage.setItem(key,remote);
+       location.replace('/moyuXCL/?appv='+encodeURIComponent(remote)+'&ts='+Date.now());
+     }
+   }
+ }catch(e){
+   console.warn('Version check failed:',e);
+ }
+}
+
+// Check at startup and whenever the app returns to foreground.
+window.addEventListener('load',()=>setTimeout(checkForAppUpdate,500));
+document.addEventListener('visibilitychange',()=>{
+ if(document.visibilityState==='visible')checkForAppUpdate();
+});
+window.addEventListener('pageshow',()=>checkForAppUpdate());
+
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('/moyuXCL/service-worker.js', { scope: '/moyuXCL/' })
-      .then(reg => reg.update())
+      .then(reg => {
+        reg.update();
+        setInterval(()=>reg.update(),10*60*1000);
+      })
       .catch(err => console.warn('Service Worker registration failed:', err));
+  });
+
+  let refreshing=false;
+  navigator.serviceWorker.addEventListener('controllerchange',()=>{
+    if(refreshing)return;
+    refreshing=true;
+    location.reload();
   });
 }
 </script>
