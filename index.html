@@ -496,7 +496,7 @@ input::placeholder,textarea::placeholder{color:#91a5b8}select option{background:
   backdrop-filter:blur(18px);
   -webkit-backdrop-filter:blur(18px);
   box-shadow:0 22px 56px rgba(70,125,170,.17), inset 0 0 0 1px rgba(255,255,255,.5);
-  overflow:hidden;
+  overflow:visible;
 }
 .record-form-card::before{
   content:'';position:absolute;left:0;right:0;top:0;height:5px;
@@ -538,12 +538,15 @@ input::placeholder,textarea::placeholder{color:#91a5b8}select option{background:
   box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 18%, transparent),0 7px 18px rgba(121,168,207,.12);
 }
 .record-form-card input::placeholder,.record-form-card textarea::placeholder{color:#9aabbc}
-.record-form-card select{appearance:none;-webkit-appearance:none;padding-right:42px}
-.record-select-wrap::after{
-  content:'⌄';position:absolute;right:15px;top:50%;transform:translateY(-54%);
-  color:var(--accent-strong);font-size:21px;font-weight:800;pointer-events:none;
-}
-.record-form-card select option{background:#fff;color:#23496f}
+.record-native-select{display:none!important}
+.record-select-button{width:100%;box-sizing:border-box;margin:0;min-height:50px;display:flex;align-items:center;justify-content:space-between;gap:12px;border:1px solid #cee3f4;border-radius:17px;background:rgba(255,255,255,.94);color:#23496f;padding:13px 15px;font-size:15px;line-height:1.35;text-align:left;outline:none;box-shadow:0 4px 14px rgba(121,168,207,.09),inset 0 1px 0 rgba(255,255,255,.9);cursor:pointer}
+.record-select-button.open,.record-select-button:focus{border-color:var(--accent);box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 18%,transparent),0 7px 18px rgba(121,168,207,.12)}
+.record-select-chevron{color:var(--accent-strong);font-size:22px;font-weight:900;line-height:1;transition:transform .18s ease}.record-select-button.open .record-select-chevron{transform:rotate(180deg)}
+.record-select-menu{display:none;position:absolute;left:0;right:0;top:calc(100% + 7px);z-index:220;padding:8px;border-radius:18px;border:1px solid color-mix(in srgb,var(--accent) 28%,white);background:rgba(252,254,255,.98);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);box-shadow:0 18px 42px rgba(54,105,150,.20),inset 0 1px 0 rgba(255,255,255,.9);max-height:300px;overflow-y:auto}
+.record-select-menu.show{display:block;animation:selectMenuIn .16s ease-out}@keyframes selectMenuIn{from{opacity:0;transform:translateY(-5px) scale(.99)}to{opacity:1;transform:none}}
+.record-select-option{width:100%;min-height:48px;border:0;border-radius:13px;background:transparent;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 12px;color:#284f78;font-size:15px;font-weight:720;text-align:left;cursor:pointer}.record-select-option+.record-select-option{margin-top:3px}.record-select-option:hover,.record-select-option:active{background:var(--accent-soft)}
+.record-select-option.selected{background:linear-gradient(90deg,var(--accent-soft),rgba(255,255,255,.86));color:var(--accent-strong)}
+.record-option-check{width:20px;height:20px;border-radius:50%;box-sizing:border-box;border:2px solid #bdd1e2;display:flex;align-items:center;justify-content:center;flex:0 0 auto}.record-select-option.selected .record-option-check{border-color:var(--accent);background:var(--accent)}.record-select-option.selected .record-option-check::after{content:'';width:6px;height:6px;border-radius:50%;background:white}
 .record-form-card textarea{min-height:130px;resize:vertical;padding-right:78px}
 .record-note-mascot{
   position:absolute;right:13px;bottom:11px;width:60px;height:60px;object-fit:contain;
@@ -581,7 +584,9 @@ input::placeholder,textarea::placeholder{color:#91a5b8}select option{background:
  .record-intro{padding-right:66px;margin-bottom:12px}
  .record-field{margin-bottom:12px}
  .record-grid{grid-template-columns:1fr}
- .record-form-card input,.record-form-card textarea,.record-form-card select{font-size:14px;padding:13px 13px;border-radius:15px}
+ .record-form-card input,.record-form-card textarea{font-size:14px;padding:13px 13px;border-radius:15px}
+ .record-select-button{font-size:14px;min-height:47px;border-radius:15px;padding:12px 13px}
+ .record-select-option{font-size:14px;min-height:45px}
  .record-form-card textarea{min-height:112px;padding-right:68px}
  .record-note-mascot{width:52px;height:52px}
  .record-form-actions .btn{min-height:47px;font-size:14px}
@@ -856,7 +861,14 @@ input::placeholder,textarea::placeholder{color:#91a5b8}select option{background:
 
       <div class="record-field">
         <label for="category"><span class="record-field-icon">📁</span><span id="categoryLabel">科研类别</span></label>
-        <div class="record-select-wrap"><select id="category"></select></div>
+        <div class="record-select-wrap" id="categorySelectWrap">
+          <button class="record-select-button" id="categoryButton" type="button" onclick="toggleCategoryMenu(event)">
+            <span id="categoryButtonText">请选择</span>
+            <span class="record-select-chevron">⌄</span>
+          </button>
+          <select id="category" class="record-native-select" tabindex="-1" aria-hidden="true"></select>
+          <div class="record-select-menu" id="categoryMenu" role="listbox"></div>
+        </div>
       </div>
 
       <div class="record-field">
@@ -874,14 +886,14 @@ input::placeholder,textarea::placeholder{color:#91a5b8}select option{background:
 
       <div class="record-grid">
         <div class="record-field">
-          <label for="value"><span class="record-field-icon">🏷️</span>结果 / 数值</label>
+          <label for="value"><span class="record-field-icon">🏷️</span><span id="valueLabel">成果 / 进度</span></label>
           <div class="record-input-wrap"><input id="value" placeholder="例如：已投稿 / +3星 / 8.5分"></div>
         </div>
         <div class="record-field">
-          <label for="duration"><span class="record-field-icon">⏱️</span>活动时长</label>
+          <label for="duration"><span class="record-field-icon">⏱️</span><span id="durationLabel">投入时长</span></label>
           <div class="record-input-wrap">
             <input id="duration" type="number" inputmode="numeric" min="0" step="5" placeholder="请输入时长">
-            <span class="record-unit">分钟</span>
+            <span class="record-unit" id="durationUnit">分钟</span>
           </div>
         </div>
       </div>
@@ -889,7 +901,7 @@ input::placeholder,textarea::placeholder{color:#91a5b8}select option{background:
       <div class="record-field">
         <label for="date"><span class="record-field-icon">📅</span>日期</label>
         <div class="record-input-wrap"><input id="date" type="date"></div>
-        <div class="record-field-note">活动时长用于首页分区进度和摸鱼指数计算</div>
+        <div class="record-field-note" id="durationNote">如填写，将用于首页分区进度和摸鱼指数计算</div>
       </div>
 
       <div class="record-form-actions">
@@ -902,7 +914,7 @@ input::placeholder,textarea::placeholder{color:#91a5b8}select option{background:
 
 <script>
 const STORE='xcl-workbench-v1';
-const APP_VERSION='3.0.6';
+const APP_VERSION='3.0.7';
 let currentType='home';
 let editingRecordId=null;
 let data=JSON.parse(localStorage.getItem(STORE)||'[]');
@@ -937,6 +949,34 @@ const modalVisual={
  home:{theme:'theme-research',label:'所属分区',title:'今日记录',sub:'选择一个分区，把今天值得留下的事情记下来。',asset:'./assets/fish.svg'}
 };
 
+const genericFieldSemantics={
+ research:{valueLabel:'成果 / 进度',valuePH:'例如：完成实验 / 已投稿 / Val loss 2.31',durationLabel:'科研投入时长',durationPH:'本次科研投入时长',note:'如填写，将计入今日科研时间和摸鱼指数'},
+ gaming:{valueLabel:'战绩 / 上分',valuePH:'例如：+3星 / +48胜点 / 4连胜',durationLabel:'游戏时长',durationPH:'本次游戏时长',note:'游戏时长会计入今日摸鱼时间和摸鱼指数'},
+ life:{valueLabel:'体验 / 评分',valuePH:'例如：9分 / 推荐 / 完成',durationLabel:'耗时（可选）',durationPH:'可不填',note:'生活类时长可选；填写后会计入今日生活时间'},
+ sport:{valueLabel:'成绩 / 数据',valuePH:'例如：3:1 / 8km / 训练完成',durationLabel:'运动时长',durationPH:'本次运动时长',note:'运动时长会计入今日运动时间和摸鱼指数'},
+ home:{valueLabel:'结果 / 备注',valuePH:'记录这件事的结果',durationLabel:'活动时长（可选）',durationPH:'可不填',note:'填写时长后会参与首页时间统计'}
+};
+const categoryFieldSemantics={
+ 'SCI论文':{valueLabel:'投稿 / 发表状态',valuePH:'例如：已投稿 / Under Review / 接收 / IF 8.5',durationLabel:'科研投入时长',durationPH:'本次论文工作时长',note:'记录本次论文投入，可不填'},
+ '专利':{valueLabel:'申请 / 授权状态',valuePH:'例如：已提交 / 实审 / 已授权',durationLabel:'科研投入时长',durationPH:'本次专利工作时长',note:'记录本次专利相关投入，可不填'},
+ '竞赛':{valueLabel:'竞赛结果 / 进度',valuePH:'例如：报名 / 入围决赛 / 一等奖',durationLabel:'准备 / 参赛时长',durationPH:'本次竞赛投入时长',note:'可记录准备、答辩或参赛时间'},
+ '科研日志':{valueLabel:'阶段结果',valuePH:'例如：Val loss 2.31 / 完成预处理 / 跑通实验',durationLabel:'科研投入时长',durationPH:'本次科研时长',note:'用于统计今日科研投入'},
+ '王者荣耀':{valueLabel:'上分结果',valuePH:'例如：+3星 / 王者25星 / 3连胜',durationLabel:'游戏时长',durationPH:'本次上分时长',note:'用于统计今日摸鱼时间'},
+ '英雄联盟':{valueLabel:'排位结果',valuePH:'例如：+28 LP / 3连胜 / 翡翠II',durationLabel:'游戏时长',durationPH:'本次游戏时长',note:'用于统计今日摸鱼时间'},
+ '云顶之弈':{valueLabel:'排位结果',valuePH:'例如：+48胜点 / 大师 / 吃鸡',durationLabel:'游戏时长',durationPH:'本次游戏时长',note:'用于统计今日摸鱼时间'},
+ '其他游戏':{valueLabel:'战绩 / 进度',valuePH:'例如：通关 / 2胜1负 / +2级',durationLabel:'游戏时长',durationPH:'本次游戏时长',note:'用于统计今日摸鱼时间'},
+ '干饭':{valueLabel:'消费 / 评分',valuePH:'例如：¥88 / 4.5分 / 推荐',durationLabel:'用餐时长（可选）',durationPH:'不想统计可留空',note:'吃饭无需强制记时长；填写后计入生活时间'},
+ '电影':{valueLabel:'评分 / 推荐度',valuePH:'例如：9分 / 推荐 / 二刷',durationLabel:'影片时长（可选）',durationPH:'例如：128',note:'可填影片时长，也可以留空'},
+ '3D打印':{valueLabel:'打印结果',valuePH:'例如：打印成功 / 失败 / 成品8.5分',durationLabel:'打印耗时',durationPH:'本次打印耗时',note:'适合记录实际打印或调试耗时'},
+ '日常':{valueLabel:'完成情况 / 心情',valuePH:'例如：完成 / 开心 / 值得记录',durationLabel:'活动时长（可选）',durationPH:'可不填',note:'普通日常不强制记录时长'},
+ '乒乓球':{valueLabel:'比分 / 训练结果',valuePH:'例如：3:1 / 正手训练完成',durationLabel:'运动时长',durationPH:'本次运动时长',note:'用于统计今日运动时间'},
+ '羽毛球':{valueLabel:'比分 / 训练结果',valuePH:'例如：2:1 / 双打3局',durationLabel:'运动时长',durationPH:'本次运动时长',note:'用于统计今日运动时间'},
+ '足球':{valueLabel:'比分 / 数据',valuePH:'例如：2:1 / 1球1助',durationLabel:'运动时长',durationPH:'本次运动时长',note:'用于统计今日运动时间'},
+ '排球':{valueLabel:'比分 / 训练结果',valuePH:'例如：2:0 / 发球训练完成',durationLabel:'运动时长',durationPH:'本次运动时长',note:'用于统计今日运动时间'},
+ '其他运动':{valueLabel:'成绩 / 数据',valuePH:'例如：8km / 训练完成',durationLabel:'运动时长',durationPH:'本次运动时长',note:'用于统计今日运动时间'}
+};
+
+
 function todayISO(){
  const d=new Date();
  const y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,'0'),day=String(d.getDate()).padStart(2,'0');
@@ -957,6 +997,31 @@ function go(id){
  window.scrollTo({top:0,behavior:'smooth'});
 }
 
+
+function applyFieldSemantics(type,category){
+ const s=categoryFieldSemantics[category]||genericFieldSemantics[type]||genericFieldSemantics.home;
+ document.getElementById('valueLabel').textContent=s.valueLabel;
+ document.getElementById('value').placeholder=s.valuePH;
+ document.getElementById('durationLabel').textContent=s.durationLabel;
+ document.getElementById('duration').placeholder=s.durationPH;
+ document.getElementById('durationUnit').textContent='分钟';
+ document.getElementById('durationNote').textContent=s.note;
+}
+function refreshCategoryMenu(){
+ const select=document.getElementById('category'); const menu=document.getElementById('categoryMenu'); const current=select.value;
+ menu.querySelectorAll('.record-select-option').forEach(btn=>{const on=btn.dataset.value===current;btn.classList.toggle('selected',on);btn.setAttribute('aria-selected',on?'true':'false')});
+ document.getElementById('categoryButtonText').textContent=current||'请选择';
+}
+function buildCategorySelector(type,selectedValue){
+ const select=document.getElementById('category'); const menu=document.getElementById('categoryMenu'); const values=configs[type]||configs.home;
+ select.innerHTML=values.map(x=>`<option>${x}</option>`).join(''); const selected=(selectedValue&&values.includes(selectedValue))?selectedValue:(values[0]||''); select.value=selected;
+ menu.innerHTML=values.map(x=>`<button type="button" class="record-select-option" data-value="${esc(x)}" role="option"><span>${esc(x)}</span><span class="record-option-check"></span></button>`).join('');
+ menu.querySelectorAll('.record-select-option').forEach(btn=>btn.addEventListener('click',e=>{e.stopPropagation();chooseCategory(btn.dataset.value)})); refreshCategoryMenu();
+}
+function toggleCategoryMenu(event){if(event)event.stopPropagation();const menu=document.getElementById('categoryMenu'),button=document.getElementById('categoryButton'),willOpen=!menu.classList.contains('show');menu.classList.toggle('show',willOpen);button.classList.toggle('open',willOpen)}
+function closeCategoryMenu(){document.getElementById('categoryMenu')?.classList.remove('show');document.getElementById('categoryButton')?.classList.remove('open')}
+function chooseCategory(value){const select=document.getElementById('category');select.value=value;closeCategoryMenu();refreshCategoryMenu();select.dispatchEvent(new Event('change',{bubbles:true}))}
+
 function applyModalCopy(type){
  const c=modalCopy[type]||modalCopy.home;
  const v=modalVisual[type]||modalVisual.home;
@@ -970,6 +1035,7 @@ function applyModalCopy(type){
  document.getElementById('recordIntroSub').textContent=v.sub;
  document.getElementById('recordMascot').src=v.asset;
  document.getElementById('noteMascot').src=v.asset;
+ applyFieldSemantics(type,document.getElementById('category').value);
  const modal=document.getElementById('modal');
  modal.classList.remove('theme-research','theme-gaming','theme-life','theme-sport');
  modal.classList.add(v.theme);
@@ -978,9 +1044,9 @@ function openModal(type){
  editingRecordId=null;
  currentType=type;
  document.getElementById('modal').classList.add('show');
- const cat=document.getElementById('category');
- cat.innerHTML=configs[type].map(x=>`<option>${x}</option>`).join('');
+ buildCategorySelector(type);
  applyModalCopy(type);
+ applyFieldSemantics(type,document.getElementById('category').value);
  document.getElementById('saveBtn').textContent='保存记录';
  document.getElementById('date').value=todayISO();
  document.getElementById('title').value='';
@@ -995,11 +1061,10 @@ function openEdit(id){
  currentType=rec.type;
  document.getElementById('modal').classList.add('show');
 
- const cat=document.getElementById('category');
- cat.innerHTML=configs[rec.type].map(x=>`<option>${x}</option>`).join('');
- cat.value=rec.category;
+ buildCategorySelector(rec.type,rec.category);
 
  applyModalCopy(rec.type);
+ applyFieldSemantics(rec.type,document.getElementById('category').value);
  document.getElementById('modalTitle').textContent='修改'+
    ({research:'科研',gaming:'摸鱼',life:'生活',sport:'运动'}[rec.type]||'')+'记录';
  document.getElementById('modalHint').textContent='可以补录活动时长，也可以修改标题、备注、结果、分类和日期。';
@@ -1013,6 +1078,7 @@ function openEdit(id){
 }
 
 function closeModal(){
+ closeCategoryMenu();
  document.getElementById('modal').classList.remove('show');
  editingRecordId=null;
  const btn=document.getElementById('saveBtn');
@@ -1041,11 +1107,11 @@ document.addEventListener('DOMContentLoaded',()=>{
      '足球':['标题，例如：五人制足球','结果，例如：2:1 / 80min'],
      '排球':['标题，例如：排球训练','结果，例如：90min']
    };
-   if(categoryExamples[v]){
-     title.placeholder=categoryExamples[v][0];
-     value.placeholder=categoryExamples[v][1];
-   }
+   if(categoryExamples[v]){ title.placeholder=categoryExamples[v][0]; }
+   applyFieldSemantics(currentType,v);
+   refreshCategoryMenu();
  });
+ document.addEventListener('click',e=>{if(!document.getElementById('categorySelectWrap')?.contains(e.target))closeCategoryMenu()});
 });
 
 
