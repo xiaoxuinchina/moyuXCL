@@ -924,7 +924,7 @@ input::placeholder,textarea::placeholder{color:#91a5b8}select option{background:
 
 <script>
 const STORE='xcl-workbench-v1';
-const APP_VERSION='3.0.8';
+const APP_VERSION='3.0.9';
 let currentType='home';
 let editingRecordId=null;
 let data=JSON.parse(localStorage.getItem(STORE)||'[]');
@@ -1177,15 +1177,62 @@ function legacyCopyText(text){
  const ta=document.createElement('textarea');ta.value=text;ta.setAttribute('readonly','');ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();
  let ok=false;try{ok=document.execCommand('copy')}catch(e){}document.body.removeChild(ta);return ok;
 }
+
+function bytesToBase64Url(bytes){
+ let binary='';
+ const chunk=0x8000;
+ for(let i=0;i<bytes.length;i+=chunk){
+   binary+=String.fromCharCode.apply(null,bytes.subarray(i,Math.min(i+chunk,bytes.length)));
+ }
+ return btoa(binary).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+}
+
+async function gzipBase64Url(text){
+ if(typeof CompressionStream==='undefined')return null;
+ const stream=new Blob([new TextEncoder().encode(text)]).stream().pipeThrough(new CompressionStream('gzip'));
+ const buf=await new Response(stream).arrayBuffer();
+ return bytesToBase64Url(new Uint8Array(buf));
+}
+
 async function migrateToMoyuWorkbench(){
- const payload={schema:1,records:data,profile:{nickname:'XCL'},exportedAt:new Date().toISOString(),source:'爱摸鱼的XCL'};
- const packed='MOYU_WORKBENCH_IMPORT:'+JSON.stringify(payload);
+ const payload={
+   schema:2,
+   records:data,
+   profile:{nickname:'XCL'},
+   exportedAt:new Date().toISOString(),
+   source:'爱摸鱼的XCL'
+ };
+ const json=JSON.stringify(payload);
+
+ // 主通道：迁移数据直接跟随深链接传给新版 APP，不依赖 Android 剪贴板。
+ try{
+   const compressed=await gzipBase64Url(json);
+   if(compressed){
+     const deepLink='moyuwb://import?encoding=gzip-base64url&data='+compressed;
+     if(deepLink.length<700000){
+       window.location.href=deepLink;
+       return;
+     }
+   }
+ }catch(e){
+   console.warn('Direct migration unavailable:',e);
+ }
+
+ // 备用通道：兼容旧版“摸鱼工作台”。
+ const packed='MOYU_WORKBENCH_IMPORT:'+json;
  let copied=false;
- try{if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(packed);copied=true}}catch(e){}
+ try{
+   if(navigator.clipboard&&window.isSecureContext){
+     await navigator.clipboard.writeText(packed);
+     copied=true;
+   }
+ }catch(e){}
  if(!copied)copied=legacyCopyText(packed);
- if(!copied){alert('迁移数据复制失败，请稍后重试。');return}
- alert('迁移数据已准备好。接下来会尝试打开新版「摸鱼工作台」；如果没有自动打开，请先安装新版后再点一次。');
- setTimeout(()=>{window.location.href='moyuwb://import?source=clipboard'},120);
+ if(!copied){
+   alert('迁移数据准备失败。请先更新新版「摸鱼工作台」后再试。');
+   return;
+ }
+ window.location.href='moyuwb://import?source=clipboard';
 }
 
 
