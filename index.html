@@ -721,6 +721,11 @@ input::placeholder,textarea::placeholder{color:#91a5b8}select option{background:
 .empty-inline-icon{display:inline-block;vertical-align:middle;width:22px;height:22px;object-fit:contain;margin-left:4px;transform:translateY(2px)}
 @media(max-width:600px){.record-titleline{gap:8px}.archive-item-icon{width:24px;height:24px;flex-basis:24px}.empty-inline-icon{width:18px;height:18px}}
 
+
+/* v3.0.8：一键迁移到公共版「摸鱼工作台」 */
+.migrate-card{margin:10px 0 14px;padding:16px 17px;border-radius:22px;background:linear-gradient(135deg,rgba(255,255,255,.88),rgba(236,248,255,.82));border:1px solid rgba(125,190,235,.26);box-shadow:0 10px 28px rgba(74,132,174,.10)}
+.migrate-card h3{margin:0 0 7px;color:#173f73;font-size:17px}.migrate-card p{margin:0 0 12px;color:#64809a;font-size:12px;line-height:1.65}.migrate-card .btn{background:linear-gradient(180deg,#63aaff,#337cf2);color:#fff;border-color:transparent;font-weight:800;box-shadow:0 10px 22px rgba(58,128,235,.20)}
+
 </style>
 <link rel="apple-touch-icon" href="/moyuXCL/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="64x64" href="/moyuXCL/favicon-64.png">
@@ -820,6 +825,11 @@ input::placeholder,textarea::placeholder{color:#91a5b8}select option{background:
 
   <section id="archive" class="page">
     <div class="page-head"><div><h1>🗂️ 全部活动记录</h1><p>按时间保存科研、摸鱼、生活和运动历史。</p></div><button class="btn" onclick="go('home')">返回首页</button></div>
+    <div class="migrate-card">
+      <h3>🚚 迁移到新版「摸鱼工作台」</h3>
+      <p>安装新版后，在这里点一次即可把当前科研、摸鱼、生活和运动记录迁移过去。不会删除当前数据。</p>
+      <button class="btn" onclick="migrateToMoyuWorkbench()">一键迁移到摸鱼工作台</button>
+    </div>
     <div class="card" style="margin-bottom:10px"><div style="display:flex;gap:8px;flex-wrap:wrap">
       <button class="btn archive-filter active-filter" onclick="setArchiveFilter('all',this)">全部</button>
       <button class="btn archive-filter" onclick="setArchiveFilter('research',this)">科研</button>
@@ -914,7 +924,7 @@ input::placeholder,textarea::placeholder{color:#91a5b8}select option{background:
 
 <script>
 const STORE='xcl-workbench-v1';
-const APP_VERSION='3.0.7';
+const APP_VERSION='3.0.8';
 let currentType='home';
 let editingRecordId=null;
 let data=JSON.parse(localStorage.getItem(STORE)||'[]');
@@ -1162,6 +1172,22 @@ function del(id){
  }
 }
 function persist(){localStorage.setItem(STORE,JSON.stringify(data))}
+
+function legacyCopyText(text){
+ const ta=document.createElement('textarea');ta.value=text;ta.setAttribute('readonly','');ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();
+ let ok=false;try{ok=document.execCommand('copy')}catch(e){}document.body.removeChild(ta);return ok;
+}
+async function migrateToMoyuWorkbench(){
+ const payload={schema:1,records:data,profile:{nickname:'XCL'},exportedAt:new Date().toISOString(),source:'爱摸鱼的XCL'};
+ const packed='MOYU_WORKBENCH_IMPORT:'+JSON.stringify(payload);
+ let copied=false;
+ try{if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(packed);copied=true}}catch(e){}
+ if(!copied)copied=legacyCopyText(packed);
+ if(!copied){alert('迁移数据复制失败，请稍后重试。');return}
+ alert('迁移数据已准备好。接下来会尝试打开新版「摸鱼工作台」；如果没有自动打开，请先安装新版后再点一次。');
+ setTimeout(()=>{window.location.href='moyuwb://import?source=clipboard'},120);
+}
+
 
 function renderList(type,el){
  const items=data.filter(x=>x.type===type);
